@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="65eedeef-c604-46d2-9161-34ee598e8230" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/types/types.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feature/drawBones.go" beforeDir="false" afterPath="$PROJECT_DIR$/feature/drawBones.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/feature/general.go" beforeDir="false" afterPath="$PROJECT_DIR$/feature/general.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feature/playermgmt.go" beforeDir="false" afterPath="$PROJECT_DIR$/feature/playermgmt.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/memory/editor.go" beforeDir="false" afterPath="$PROJECT_DIR$/memory/editor.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/render/drawing.go" beforeDir="false" afterPath="$PROJECT_DIR$/render/drawing.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/render/window.go" beforeDir="false" afterPath="$PROJECT_DIR$/render/window.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/types/types.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,17 +19,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
+            <state relative-caret-position="434">
+              <caret line="66" column="16" selection-start-line="66" selection-start-column="11" selection-end-line="66" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/types/types.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="196">
+              <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+              <folding>
+                <element signature="e#15#72#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/feature/drawBones.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="66" column="9" lean-forward="true" selection-start-line="66" selection-start-column="9" selection-end-line="66" selection-end-column="9" />
+            <state relative-caret-position="350">
+              <caret line="60" column="100" selection-start-line="60" selection-start-column="100" selection-end-line="60" selection-end-column="100" />
             </state>
           </provider>
         </entry>
@@ -41,8 +49,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/feature/general.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+            <state relative-caret-position="490">
+              <caret line="35" column="12" lean-forward="true" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
+              <folding>
+                <element signature="e#17#118#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -52,6 +63,15 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="618">
               <caret line="60" column="5" selection-start-line="60" selection-start-column="5" selection-end-line="60" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/render/window.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="206">
+              <caret line="40" column="45" selection-start-line="40" selection-start-column="45" selection-end-line="40" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -77,6 +97,7 @@
       <find>bonesPS</find>
       <find>bones</find>
       <find>continued</find>
+      <find>1920</find>
     </findStrings>
     <replaceStrings>
       <replace>int</replace>
@@ -116,13 +137,13 @@
         <option value="$PROJECT_DIR$/offset/offsets.go" />
         <option value="$PROJECT_DIR$/feature/playermgmt.go" />
         <option value="$PROJECT_DIR$/render/drawing.go" />
-        <option value="$PROJECT_DIR$/render/window.go" />
         <option value="$PROJECT_DIR$/memory/editor.go" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_11.go" />
-        <option value="$PROJECT_DIR$/types/types.go" />
-        <option value="$PROJECT_DIR$/feature/general.go" />
-        <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/feature/drawBones.go" />
+        <option value="$PROJECT_DIR$/feature/general.go" />
+        <option value="$PROJECT_DIR$/types/types.go" />
+        <option value="$PROJECT_DIR$/main.go" />
+        <option value="$PROJECT_DIR$/render/window.go" />
       </list>
     </option>
   </component>
@@ -636,17 +657,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/types/types.go">
+    <entry file="file://$PROJECT_DIR$/feature/drawBones.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+        <state relative-caret-position="350">
+          <caret line="60" column="100" selection-start-line="60" selection-start-column="100" selection-end-line="60" selection-end-column="100" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/render/window.go">
+    <entry file="file://$PROJECT_DIR$/feature/general.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="21" column="5" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+        <state relative-caret-position="490">
+          <caret line="35" column="12" lean-forward="true" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
+          <folding>
+            <element signature="e#17#118#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -657,24 +681,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/feature/general.go">
+    <entry file="file://$PROJECT_DIR$/types/types.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+          <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding>
+            <element signature="e#15#72#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="67" lean-forward="true" selection-start-line="67" selection-end-line="67" />
+        <state relative-caret-position="434">
+          <caret line="66" column="16" selection-start-line="66" selection-start-column="11" selection-end-line="66" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/feature/drawBones.go">
+    <entry file="file://$PROJECT_DIR$/render/window.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="66" column="9" lean-forward="true" selection-start-line="66" selection-start-column="9" selection-end-line="66" selection-end-column="9" />
+        <state relative-caret-position="206">
+          <caret line="40" column="45" selection-start-line="40" selection-start-column="45" selection-end-line="40" selection-end-column="45" />
         </state>
       </provider>
     </entry>

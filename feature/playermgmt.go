@@ -4,7 +4,6 @@ import (
 	"F0nkHack/ferror"
 	"F0nkHack/memory"
 	"F0nkHack/offset"
-	"fmt"
 	"golang.org/x/xerrors"
 	"log"
 	"unicode"
@@ -22,7 +21,6 @@ func NewPlayerStore(maxPlayers int32) *PlayerStore {
 }
 
 func (ps PlayerStore) UpdateAllPlayers(editor *memory.Editor) {
-	var dcount int
 	for i := int32(0); i < ps.maxPlayers; i++ {
 		currPlayer := Player{}
 
@@ -36,7 +34,6 @@ func (ps PlayerStore) UpdateAllPlayers(editor *memory.Editor) {
 		}
 		pp := r.InternalPlayer()
 		if (pp.Team != 3 && pp.Team != 2) || pp.HP <= 0 { // is not a player, or alive
-			dcount++
 			continue
 		}
 
@@ -59,7 +56,6 @@ func (ps PlayerStore) UpdateAllPlayers(editor *memory.Editor) {
 
 		ps.Players[i] = currPlayer
 	}
-	fmt.Println("dcount",dcount)
 }
 
 

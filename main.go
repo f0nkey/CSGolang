@@ -8,7 +8,6 @@ import (
 	"F0nkHack/render"
 	"F0nkHack/types"
 	"fmt"
-	"github.com/AllenDang/w32"
 	"log"
 	"time"
 )
@@ -17,16 +16,7 @@ var enableVisuals = true
 
 
 
-var windowSize = getWindowSize()
-
-func getWindowSize() types.WindowRect {
-	w, err := memory.FindWindow("Counter-Strike: Global Offensive")
-	if err != nil {
-		panic("Did not find CS:GO window. Is CS:GO is open?")
-	}
-	rect := w32.GetWindowRect(w32.HWND(w))
-	return types.WindowRect{rect.Right - rect.Left,rect.Bottom - rect.Top}
-}
+var windowSize = types.GetWindowSize()
 
 func main() {
 

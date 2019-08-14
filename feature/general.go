@@ -4,9 +4,12 @@ import (
 	"F0nkHack/ferror"
 	"F0nkHack/memory"
 	"F0nkHack/offset"
+	"F0nkHack/types"
 	"golang.org/x/xerrors"
 	"unsafe"
 )
+
+var windowSize = types.GetWindowSize()
 
 func GetViewMatrix(editor *memory.Editor) (memory.CSMatrix, error) {
 	//viewMatrix4x4 = readProccessMemoryViewMatrix3(dllClient + oViewMatrix)
@@ -17,6 +20,7 @@ func GetViewMatrix(editor *memory.Editor) (memory.CSMatrix, error) {
 	}
 	return r.CSMatrix(), nil
 }
+
 
 func WorldToScreen(world memory.Vector3, w2s [4][4]float32) memory.Vector2 {
 	var res memory.Vector2
@@ -36,8 +40,8 @@ func WorldToScreen(world memory.Vector3, w2s [4][4]float32) memory.Vector2 {
 		res.Y *= invw
 	}
 
-	var sw float32 = 1920.0 //todo: change to curr window resolution
-	var sh float32 = 1080.0
+	var sw float32 = float32(windowSize.Width) //todo: change to curr window resolution
+	var sh float32 = float32(windowSize.Height)
 
 	var x float32 = float32(sw) / 2.0
 	var y float32 = float32(sh) / 2.0

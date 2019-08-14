@@ -38,9 +38,9 @@ func (g guiWindow) createWindowAndRenderLoop() {
 	cfg := pixelgl.WindowConfig {
 		Title:  g.WindowName,
 		Bounds: pixel.R(float64(g.targetWindowRect.Left),
-			float64(g.targetWindowRect.Top),
+			float64(g.targetWindowRect.Top)-21,
 			float64(g.targetWindowRect.Right),
-			float64(g.targetWindowRect.Bottom)),
+			float64(g.targetWindowRect.Bottom)-21),
 		VSync:  false,
 		Undecorated: false,
 	}
