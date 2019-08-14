@@ -13,35 +13,35 @@ import (
 )
 
 type guiWindow struct {
-	TargetWindow string
-	WindowName string
-	RenderLoop func(*DrawingCanvas)
+	TargetWindow     string
+	WindowName       string
+	RenderLoop       func(*DrawingCanvas)
 	targetWindowRect *w32.RECT
 }
 
 func NewDrawingOverlay(targetWindow string, name string, drawLoop func(canvas *DrawingCanvas)) *guiWindow {
 	t, err := memory.FindWindow(targetWindow)
 	if err != nil {
-		log.Println("createWindowAndRenderLoop: error finding target window, ",err)
+		log.Println("createWindowAndRenderLoop: error finding target window, ", err)
 	}
 
-	return &guiWindow{targetWindow,name,drawLoop,w32.GetWindowRect(w32.HWND(t))}
+	return &guiWindow{targetWindow, name, drawLoop, w32.GetWindowRect(w32.HWND(t))}
 }
 
 func (g guiWindow) createWindowAndRenderLoop() {
 
-	 fmt.Println(pixel.R(float64(g.targetWindowRect.Left),
+	fmt.Println(pixel.R(float64(g.targetWindowRect.Left),
 		float64(g.targetWindowRect.Top),
 		float64(g.targetWindowRect.Right),
 		float64(g.targetWindowRect.Bottom)))
 
-	cfg := pixelgl.WindowConfig {
-		Title:  g.WindowName,
+	cfg := pixelgl.WindowConfig{
+		Title: g.WindowName,
 		Bounds: pixel.R(float64(g.targetWindowRect.Left),
 			float64(g.targetWindowRect.Top)-21,
 			float64(g.targetWindowRect.Right),
 			float64(g.targetWindowRect.Bottom)-21),
-		VSync:  false,
+		VSync:       false,
 		Undecorated: false,
 	}
 	window, err := pixelgl.NewWindow(cfg)
@@ -50,7 +50,7 @@ func (g guiWindow) createWindowAndRenderLoop() {
 	}
 
 	imd := imdraw.New(nil)
-	canv := DrawingCanvas{imd,int(g.targetWindowRect.Right),int(g.targetWindowRect.Bottom)}
+	canv := DrawingCanvas{imd, int(g.targetWindowRect.Right), int(g.targetWindowRect.Bottom)}
 
 	for !window.Closed() {
 		time.Sleep(time.Millisecond * 16)
@@ -90,14 +90,14 @@ func (g guiWindow) setAlphaWindow() {
 		log.Println("DwmExtendFrameIntoClientArea: could not set frame ", hr)
 	}
 
-	flags := w32.GetWindowLong(hwnd, w32.GWL_EXSTYLE);
-	flags = flags&(^(w32.WS_EX_STATICEDGE | w32.WS_EX_CLIENTEDGE));
-	ok = w32.SetWindowLong(hwnd, w32.GWL_EXSTYLE, uint32(flags) | w32.WS_EX_TRANSPARENT | w32.WS_EX_NOACTIVATE | w32.WS_EX_LAYERED)
+	flags := w32.GetWindowLong(hwnd, w32.GWL_EXSTYLE)
+	flags = flags & (^(w32.WS_EX_STATICEDGE | w32.WS_EX_CLIENTEDGE))
+	ok = w32.SetWindowLong(hwnd, w32.GWL_EXSTYLE, uint32(flags)|w32.WS_EX_TRANSPARENT|w32.WS_EX_NOACTIVATE|w32.WS_EX_LAYERED)
 	if ok == 0 {
 		log.Println("SetWindowLong: Error setting GWL_EXSTYLE ", ok)
 	}
 
-	ok2 := w32.SetWindowPos(hwnd,w32.HWND_TOPMOST,0,0,0,0, w32.SWP_FRAMECHANGED | w32.SWP_NOMOVE | w32.SWP_NOSIZE | w32.SWP_NOREPOSITION | w32.SWP_NOSIZE | w32.SWP_NOACTIVATE)
+	ok2 := w32.SetWindowPos(hwnd, w32.HWND_TOPMOST, 0, 0, 0, 0, w32.SWP_FRAMECHANGED|w32.SWP_NOMOVE|w32.SWP_NOSIZE|w32.SWP_NOREPOSITION|w32.SWP_NOSIZE|w32.SWP_NOACTIVATE)
 	if ok2 == false {
 		log.Println("SetWindowPos: Error setting flags ", ok)
 	}

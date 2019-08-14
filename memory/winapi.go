@@ -24,8 +24,6 @@ func GetProcessName(id uint32) string {
 	var me w32.MODULEENTRY32
 	me.Size = uint32(unsafe.Sizeof(me))
 	if w32.Module32First(snapshot, &me) {
-		//		fmt.Println("this is the damn base address:", &me.ModBaseAddr)
-
 		return w32.UTF16PtrToString(&me.SzModule[0])
 	}
 
@@ -90,7 +88,6 @@ func GetDLLModuleAddressSize(nameDLL string, namePID uint32) uint32 {
 
 		if w32.UTF16PtrToString(&me32.SzModule[0]) == nameDLL {
 			return me32.ModBaseSize
-			killLoop = true
 		}
 	}
 	fmt.Println("modBaseAddr:", me32.ModBaseAddr)
@@ -148,7 +145,7 @@ func EnumWindows(enumFunc uintptr, lparam uintptr) (err error) {
 func SetLayeredWindowAttributes(hwnd w32.HWND, cr w32.COLORREF, alpha byte, flags uint32) bool {
 	moduser32 := syscall.NewLazyDLL("user32.dll")
 	procSetLayeredWindowAttributes := moduser32.NewProc("SetLayeredWindowAttributes")
-	r0, _,_ := syscall.Syscall6(procSetLayeredWindowAttributes.Addr(), 4, uintptr(hwnd), uintptr(cr), uintptr(alpha), uintptr(flags), 0, 0)
+	r0, _, _ := syscall.Syscall6(procSetLayeredWindowAttributes.Addr(), 4, uintptr(hwnd), uintptr(cr), uintptr(alpha), uintptr(flags), 0, 0)
 
 	return r0 != 0
 }

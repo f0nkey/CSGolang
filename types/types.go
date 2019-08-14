@@ -16,6 +16,6 @@ func GetWindowSize() WindowRect {
 		panic("Did not find Counter-Strike: Global Offensive window. Is CS:GO is open?")
 	}
 	rect := w32.GetWindowRect(w32.HWND(w))
-	fmt.Println("rect",rect)
-	return WindowRect{rect.Right - rect.Left,rect.Bottom - rect.Top}
+	fmt.Println("rect", rect)
+	return WindowRect{rect.Right - rect.Left, rect.Bottom - rect.Top}
 }

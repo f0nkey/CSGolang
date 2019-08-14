@@ -24,7 +24,7 @@ func MarshalOffsets() {
 
 	}
 
-	fmt.Println("bod",body)
+	fmt.Println("bod", body)
 
 	var off offsets
 	err = json.Unmarshal(body, &off)
@@ -37,7 +37,7 @@ func MarshalOffsets() {
 		fmt.Println("OFFSETS POSSIBLY OUTDATED")
 	}
 
-	fmt.Println("of",off)
+	fmt.Println("of", off)
 
 	Signatures = &off.Signatures
 	Netvars = &off.Netvars
@@ -71,8 +71,8 @@ func getCurrentCSGOUpdate() string {
 
 type offsets struct {
 	Timestamp  int        `json:"timestamp"`
-	Signatures signatures    `json:"signatures"`
-	Netvars netvars `json:"netvars"`
+	Signatures signatures `json:"signatures"`
+	Netvars    netvars    `json:"netvars"`
 }
 
 type netvars struct {
@@ -186,7 +186,7 @@ type signatures struct {
 	DwGlobalVars                   int32 `json:"dwGlobalVars"`
 	DwGlowObjectManager            int32 `json:"dwGlowObjectManager"`
 	DwInput                        int32 `json:"dwInput"`
-	DwuintptrerfaceLinkList        int32 `json:"dwuintptrerfaceLinkList"`
+	DwInterfaceLinkList            int32 `json:"dwInterfaceLinkList"`
 	DwLocalPlayer                  int32 `json:"dwLocalPlayer"`
 	DwMouseEnable                  int32 `json:"dwMouseEnable"`
 	DwMouseEnablePtr               int32 `json:"dwMouseEnablePtr"`
@@ -203,7 +203,7 @@ type signatures struct {
 	DwbSendPackets                 int32 `json:"dwbSendPackets"`
 	DwppDirect3DDevice9            int32 `json:"dwppDirect3DDevice9"`
 	ForceUpdateSpectatorGlow       int32 `json:"force_update_spectator_glow"`
-	uintptrerfaceEngineCvar        int32 `json:"uintptrerface_engine_cvar"`
+	InterfaceEngineCvar            int32 `json:"interface_engine_cvar"`
 	IsC4Owner                      int32 `json:"is_c4_owner"`
 	MBDormant                      int32 `json:"m_bDormant"`
 	MPStudioHdr                    int32 `json:"m_pStudioHdr"`

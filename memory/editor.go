@@ -18,8 +18,8 @@ var (
 type Editor struct {
 	procHandle w32.HANDLE
 	byteOrder  binary.ByteOrder
-	DLLEngine int32
-	DLLClient int32
+	DLLEngine  int32
+	DLLClient  int32
 }
 
 func NewEditor(procName string) (e *Editor) {
@@ -36,7 +36,7 @@ func NewEditor(procName string) (e *Editor) {
 	dllEngine := int32(uintptr(unsafe.Pointer(GetDLLModuleAddress("engine.dll", pid))))
 	dllClient := int32(uintptr(unsafe.Pointer(GetDLLModuleAddress("client_panorama.dll", pid))))
 
-	return &Editor{procHandle, binary.LittleEndian, dllEngine,dllClient}
+	return &Editor{procHandle, binary.LittleEndian, dllEngine, dllClient}
 }
 
 func (e Editor) Read(size int32, offsets ...int32) (RawData, error) {
@@ -69,7 +69,7 @@ func (e Editor) Read(size int32, offsets ...int32) (RawData, error) {
 	return RawData{}, err
 }
 
-func (e Editor) Read2(size int32, offsets ...int32) (RawData) {
+func (e Editor) Read2(size int32, offsets ...int32) RawData {
 	var offset int32
 	for i, currOffset := range offsets {
 		offset += currOffset
@@ -78,7 +78,7 @@ func (e Editor) Read2(size int32, offsets ...int32) (RawData) {
 			uintptr(e.procHandle), //handle to dll within proc
 			uintptr(offset),
 			uintptr(unsafe.Pointer(&buf[0])),
-			uintptr(size),                     //size of datatype
+			uintptr(size),                //size of datatype
 			uintptr(unsafe.Pointer(nil)), //bytesRead
 		)
 
@@ -165,7 +165,6 @@ type HitBox struct {
 	Pad2     [0x10]byte /// 0x34
 }
 
-
 type Vector3 struct {
 	X, Y, Z float32
 }
@@ -183,7 +182,7 @@ type Vector2 struct {
 func (r RawData) InternalPlayer() (p InternalPlayer) {
 	newReader := bytes.NewBuffer(r)
 	if err := binary.Read(newReader, binary.LittleEndian, &p); err != nil {
-		log.Println("RawData.InternalPlayer:",err)
+		log.Println("RawData.InternalPlayer:", err)
 	}
 	return p
 }

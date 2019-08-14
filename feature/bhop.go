@@ -9,10 +9,8 @@ import (
 	"time"
 )
 
-func BHop(mem *memory.Editor){
+func BHop(mem *memory.Editor) {
 	dllClient := mem.DLLClient
-	//flags := mem.Read(4,dllClient+offset.LocalPlayer, offset.Flags).Uintptr()
-
 
 	for {
 		keySpace := w32.GetAsyncKeyState(0x20)
@@ -20,9 +18,9 @@ func BHop(mem *memory.Editor){
 			continue
 		}
 
-		r, err := mem.Read(4,dllClient+offset.Signatures.DwLocalPlayer, offset.Netvars.MFFlags)
+		r, err := mem.Read(4, dllClient+offset.Signatures.DwLocalPlayer, offset.Netvars.MFFlags)
 		if ferror.ErrIsImportant(err) {
-			log.Println("BHop:",err)
+			log.Println("BHop:", err)
 		}
 		onGround := r.Uintptr() & (1 << 0)
 		if onGround == 1 {

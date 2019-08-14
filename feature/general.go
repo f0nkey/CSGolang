@@ -12,15 +12,13 @@ import (
 var windowSize = types.GetWindowSize()
 
 func GetViewMatrix(editor *memory.Editor) (memory.CSMatrix, error) {
-	//viewMatrix4x4 = readProccessMemoryViewMatrix3(dllClient + oViewMatrix)
 	sz := int32(unsafe.Sizeof(memory.CSMatrix{}))
-	r, err := editor.Read(sz,editor.DLLClient + offset.Signatures.DwViewMatrix)
+	r, err := editor.Read(sz, editor.DLLClient+offset.Signatures.DwViewMatrix)
 	if ferror.ErrIsImportant(err) {
 		return memory.CSMatrix{}, xerrors.Errorf("getViewMatrix: %w", err)
 	}
 	return r.CSMatrix(), nil
 }
-
 
 func WorldToScreen(world memory.Vector3, w2s [4][4]float32) memory.Vector2 {
 	var res memory.Vector2
