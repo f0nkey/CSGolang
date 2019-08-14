@@ -23,7 +23,6 @@ type Editor struct {
 }
 
 func NewEditor(procName string) (e *Editor) {
-
 	pid, err := FindProcessByName(procName)
 	if err != nil {
 		log.Fatal(err)
@@ -40,9 +39,6 @@ func NewEditor(procName string) (e *Editor) {
 	return &Editor{procHandle, binary.LittleEndian, dllEngine,dllClient}
 }
 
-
-
-
 func (e Editor) Read(size int32, offsets ...int32) (RawData, error) {
 	var err error
 	var offset int32
@@ -53,8 +49,8 @@ func (e Editor) Read(size int32, offsets ...int32) (RawData, error) {
 			uintptr(e.procHandle), //handle to dll within proc
 			uintptr(offset),
 			uintptr(unsafe.Pointer(&buf[0])),
-			uintptr(size),                     //size of datatype
-			uintptr(unsafe.Pointer(nil)), //bytesRead
+			uintptr(size),
+			uintptr(unsafe.Pointer(nil)),
 		)
 
 		if i == len(offsets)-1 { // no longer must dereference, reached final value
@@ -86,10 +82,7 @@ func (e Editor) Read2(size int32, offsets ...int32) (RawData) {
 			uintptr(unsafe.Pointer(nil)), //bytesRead
 		)
 
-		if i == len(offsets)-1 { // no longer must dereference, reached final value
-			//for left, right := 0, len(buf)-1; left < right; left, right = left+1, right-1 {
-			//	buf[left], buf[right] = buf[right], buf[left]
-			//} //reversing to littleendian
+		if i == len(offsets)-1 {
 			return buf
 		}
 
@@ -107,13 +100,6 @@ func (e Editor) Read2(size int32, offsets ...int32) (RawData) {
 
 func (e Editor) Write(addr int32, data interface{}) error {
 	typeSize := reflect.TypeOf(data).Size()
-
-	//postData, err := GetBytes(data)
-	//if err != nil {
-	//	log.Println("Editor.Write: can not convert data to bytes")
-	//}
-	//buf := data //first four are the interface header, useless
-
 
 	preBuf := &bytes.Buffer{}
 	err := binary.Write(preBuf, binary.LittleEndian, data)

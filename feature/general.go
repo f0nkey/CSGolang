@@ -18,21 +18,22 @@ func GetViewMatrix(editor *memory.Editor) (memory.CSMatrix, error) {
 	return r.CSMatrix(), nil
 }
 
-func WorldToScreen(world memory.Vector3, scr *memory.Vector2, w2s [4][4]float32) {
+func WorldToScreen(world memory.Vector3, w2s [4][4]float32) memory.Vector2 {
+	var res memory.Vector2
 	var w float32
 
-	scr.X = w2s[0][0]*world.X + w2s[0][1]*world.Y + w2s[0][2]*world.Z + w2s[0][3]
-	scr.Y = w2s[1][0]*world.X + w2s[1][1]*world.Y + w2s[1][2]*world.Z + w2s[1][3]
+	res.X = w2s[0][0]*world.X + w2s[0][1]*world.Y + w2s[0][2]*world.Z + w2s[0][3]
+	res.Y = w2s[1][0]*world.X + w2s[1][1]*world.Y + w2s[1][2]*world.Z + w2s[1][3]
 	w = w2s[3][0]*world.X + w2s[3][1]*world.Y + w2s[3][2]*world.Z + w2s[3][3]
 
 	if w < 0.001 {
-		scr.X *= 100000.00
-		scr.Y *= 100000.00
+		res.X *= 100000.00
+		res.Y *= 100000.00
 	} else {
 		var invw float32 = 1.000 / w
 
-		scr.X *= invw
-		scr.Y *= invw
+		res.X *= invw
+		res.Y *= invw
 	}
 
 	var sw float32 = 1920.0 //todo: change to curr window resolution
@@ -41,9 +42,10 @@ func WorldToScreen(world memory.Vector3, scr *memory.Vector2, w2s [4][4]float32)
 	var x float32 = float32(sw) / 2.0
 	var y float32 = float32(sh) / 2.0
 
-	x += 0.5*scr.X*float32(sw) + 0.5
-	y -= 0.5*scr.Y*float32(sh) + 0.5
+	x += 0.5*res.X*float32(sw) + 0.5
+	y -= 0.5*res.Y*float32(sh) + 0.5
 
-	scr.X = x
-	scr.Y = y
+	res.X = x
+	res.Y = y
+	return res
 }

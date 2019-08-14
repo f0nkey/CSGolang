@@ -3,7 +3,7 @@ package feature
 import (
 	"F0nkHack/memory"
 	"F0nkHack/render"
-	"fmt"
+	"F0nkHack/types"
 	"golang.org/x/exp/shiny/materialdesign/colornames"
 )
 
@@ -53,10 +53,21 @@ var hitBoxIDS []string = []string{
 	"Hitbox_Last",
 }
 
-func DrawBones(canvas *render.DrawingCanvas, ps *PlayerStore, viewMatrix memory.CSMatrix){
+var headZPositions = make(map[int32]float32) //playerIndex, headzPos
+
+func DrawBones(canvas *render.DrawingCanvas, ps *PlayerStore, viewMatrix memory.CSMatrix, windowSize types.WindowRect){
 	players := ps.Players
-	fmt.Println("playerLen",len(players))
-	for _, currPlayer := range players { //todo: make more DRY
+	for _, currPlayer := range players {
+		if !isWithinFov(currPlayer.Position, viewMatrix, windowSize) || currPlayer.EntListIndex == 0 {
+			continue
+		}
+
+		if currPlayer.BonePositions[Hitbox_Head].Z == headZPositions[currPlayer.EntListIndex] { // Ghetto dormant check
+			continue
+		}
+		headZPositions[currPlayer.EntListIndex] = currPlayer.BonePositions[Hitbox_Head].Z
+
+		//todo: make more DRY
 		spine := []int{Hitbox_Head, Hitbox_Neck, Hitbox_Upper_Chest, Hitbox_Lower_Chest, Hitbox_Chest, Hitbox_Stomach, Hitbox_Pelvis}
 		//fmt.Println("bones",currPlayer.BonePositions)
 		drawBoneLinks(spine, currPlayer.BonePositions, currPlayer, canvas, viewMatrix)
@@ -69,6 +80,21 @@ func DrawBones(canvas *render.DrawingCanvas, ps *PlayerStore, viewMatrix memory.
 		rArm := []int{Hitbox_Right_Hand, Hitbox_Right_Lower_Arm, Hitbox_Right_Upper_Arm, Hitbox_Upper_Chest}
 		drawBoneLinks(rArm, currPlayer.BonePositions, currPlayer, canvas, viewMatrix)
 	}
+}
+
+// TODO: account for player's width
+func isWithinFov(playerPos memory.Vector3, viewMatrix memory.CSMatrix, windowSize types.WindowRect) bool {
+	feetLevel := WorldToScreen(playerPos,viewMatrix)
+	ad := memory.Vector3{playerPos.X,playerPos.Y,playerPos.Z}
+	ad.Z += 64 //height of a csgo player
+	headLevel := WorldToScreen(ad,viewMatrix)
+
+	a := (int32(feetLevel.X) > windowSize.Width || feetLevel.X < 0 ) || (int32(feetLevel.Y) > windowSize.Height || feetLevel.Y < 0 )
+	b := (int32(headLevel.X) > windowSize.Width || headLevel.X < 0 ) || (int32(headLevel.Y) > windowSize.Height || headLevel.Y < 0 )
+	if a || b {
+		return false
+	}
+	return true
 }
 
 func drawBoneLinks(bones []int, boneMap map[uintptr]memory.Vector3, currPlayer Player, canvas *render.DrawingCanvas, viewMatrix memory.CSMatrix) {
@@ -86,10 +112,8 @@ func drawBoneLinks(bones []int, boneMap map[uintptr]memory.Vector3, currPlayer P
 func drawBone(boneMap map[uintptr]memory.Vector3, from uintptr, to uintptr, currPlayer Player, canvas *render.DrawingCanvas, viewMatrix memory.CSMatrix) {
 	//var ic = mColor(int32(currPlayer.HP), currConfig.ESPBoneMode, int(currPlayer.Team), "espBone", int(currPlayer.EntListIndex))
 
-	var vecScreen memory.Vector2
-	var vecScreenc memory.Vector2
-	WorldToScreen(boneMap[from], &vecScreen, viewMatrix)
-	WorldToScreen(boneMap[to], &vecScreenc, viewMatrix)
+	vecScreen := WorldToScreen(boneMap[from], viewMatrix)
+	vecScreenc := WorldToScreen(boneMap[to], viewMatrix)
 	//addLine(int(vecScreen.X), int(vecScreen.Y), int(vecScreenc.X), int(vecScreenc.Y), ic.R, ic.G, ic.B)
 	//fmt.Println("posisitons",int(vecScreen.X), int(vecScreen.Y), int(vecScreenc.X), int(vecScreenc.Y))
 	canvas.AddLine(int(vecScreen.X), int(vecScreen.Y), int(vecScreenc.X), int(vecScreenc.Y),1, colornames.Amber900)

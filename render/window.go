@@ -50,7 +50,7 @@ func (g guiWindow) createWindowAndRenderLoop() {
 	}
 
 	imd := imdraw.New(nil)
-	canv := DrawingCanvas{imd}
+	canv := DrawingCanvas{imd,int(g.targetWindowRect.Right),int(g.targetWindowRect.Bottom)}
 
 	for !window.Closed() {
 		time.Sleep(time.Millisecond * 16)

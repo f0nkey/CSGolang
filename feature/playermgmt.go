@@ -4,6 +4,7 @@ import (
 	"F0nkHack/ferror"
 	"F0nkHack/memory"
 	"F0nkHack/offset"
+	"fmt"
 	"golang.org/x/xerrors"
 	"log"
 	"unicode"
@@ -21,23 +22,29 @@ func NewPlayerStore(maxPlayers int32) *PlayerStore {
 }
 
 func (ps PlayerStore) UpdateAllPlayers(editor *memory.Editor) {
+	var dcount int
 	for i := int32(0); i < ps.maxPlayers; i++ {
 		currPlayer := Player{}
 
 		playerAddr := editor.DLLClient + offset.Signatures.DwEntityList + (i * 0x10)
-		name := cleanupName(getName(i,playerAddr,editor))
+
 
 		sz := unsafe.Sizeof(memory.InternalPlayer{})
-		r, err := editor.Read(int32(sz), playerAddr, offset.Netvars.MITeamNum)
+		r, err := editor.Read(int32(sz), playerAddr, offset.Netvars.MITeamNum) //struct starts at teamNumber
 		if ferror.ErrIsImportant(err){
 			log.Println("UpdateAllPlayers:", err)
 		}
-		pp := r.InternalPlayer() // struct starts at teamNumber
+		pp := r.InternalPlayer()
+		if (pp.Team != 3 && pp.Team != 2) || pp.HP <= 0 { // is not a player, or alive
+			dcount++
+			continue
+		}
 
 		bonePositions,err := readBonesWorldPos(playerAddr, editor) //todo: fix me fucker
 		if err != nil {
 			log.Println("UpdateAllPlayers:",err) //TODO: remove UpdateAllPlayers from where it doesnt belong
 		}
+		name := cleanupName(getName(i,playerAddr,editor))
 
 		currPlayer = Player {
 			EntListIndex:    i,
@@ -52,7 +59,7 @@ func (ps PlayerStore) UpdateAllPlayers(editor *memory.Editor) {
 
 		ps.Players[i] = currPlayer
 	}
-
+	fmt.Println("dcount",dcount)
 }
 
 
@@ -95,12 +102,6 @@ func readBonesWorldPos(playerAddr int32, editor *memory.Editor) (map[uintptr]mem
 	}
 	return Bones, nil
 }
-
-
-
-
-
-
 
 func cleanupName(s string) string {
 	runes := []rune(s)

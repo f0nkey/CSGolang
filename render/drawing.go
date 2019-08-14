@@ -8,13 +8,13 @@ import (
 
 type DrawingCanvas struct {
 	*imdraw.IMDraw
+	windowWidth, windowHeight int
 }
 
-var screenWidth = 1920
-var screenHeight = 1080 //todo: grab dynamically
+
 
 func (d DrawingCanvas) AddLine(x,y,cx,cy int, thickness float32, color color.RGBA){
-	x,y,cx,cy = fixCoordinates(x,y,cx,cy)
+	x,y,cx,cy = fixCoordinates(x,y,cx,cy, d.windowHeight)
 
 	d.IMDraw.Color = color
 	d.IMDraw.EndShape = imdraw.SharpEndShape
@@ -24,6 +24,6 @@ func (d DrawingCanvas) AddLine(x,y,cx,cy int, thickness float32, color color.RGB
 }
 
 // IMDraw doesn't use opengl coords starting from top left
-func fixCoordinates(x,y,cx,cy int)(int, int, int,int) {
-	return x,screenHeight-y,cx,screenHeight-cy
+func fixCoordinates(x,y,cx,cy, windowHeight int)(int, int, int,int) {
+	return x,windowHeight-y,cx,windowHeight-cy
 }

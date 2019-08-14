@@ -6,26 +6,35 @@ import (
 	"F0nkHack/memory"
 	"F0nkHack/offset"
 	"F0nkHack/render"
+	"F0nkHack/types"
 	"fmt"
-	"golang.org/x/exp/shiny/materialdesign/colornames"
+	"github.com/AllenDang/w32"
 	"log"
-	"net"
-	"net/http"
 	"time"
 )
 
 var enableVisuals = true
 
-var windowWidth, windowHeight float32
+
+
+var windowSize = getWindowSize()
+
+func getWindowSize() types.WindowRect {
+	w, err := memory.FindWindow("Counter-Strike: Global Offensive")
+	if err != nil {
+		panic("Did not find CS:GO window. Is CS:GO is open?")
+	}
+	rect := w32.GetWindowRect(w32.HWND(w))
+	return types.WindowRect{rect.Right - rect.Left,rect.Bottom - rect.Top}
+}
 
 func main() {
-	initExpVarServer()
+
 	offset.MarshalOffsets()
 	memEditor := memory.NewEditor("csgo.exe")
 	ps := feature.NewPlayerStore(10)
 	ps.UpdateAllPlayers(memEditor)
 
-	//fmt.Println("TEAMS", ps.Players[0].HP)
 	for _, value := range ps.Players {
 		fmt.Println("HP",value.HP,value.Team, value.Position, value.Name)
 	}
@@ -41,7 +50,6 @@ func main() {
 
 	go feature.BHop(memEditor)
 
-	var mm = 1
 	if enableVisuals {
 		gw := render.NewDrawingOverlay("Counter-Strike: Global Offensive", "F0nkOverlay",
 			func(canvas *render.DrawingCanvas) {
@@ -52,10 +60,7 @@ func main() {
 					log.Println(err)
 				}
 
-				feature.DrawBones(canvas,ps,vm)
-				canvas.AddLine(500, 50, 900, 900, 1, colornames.Amber900)
-				mm++
-
+				feature.DrawBones(canvas,ps,vm, windowSize)
 		})
 		gw.RunGL()
 	}
@@ -64,19 +69,6 @@ func main() {
 		time.Sleep(time.Millisecond * 5)
 	}
 
-
-}
-
-func initExpVarServer() error {
-	sock, err := net.Listen("tcp", "localhost:8181")
-	if err != nil {
-		return err
-	}
-	go func() {
-		fmt.Println("HTTP now available at port 8123")
-		http.Serve(sock, nil)
-	}()
-	return nil
 }
 
 
