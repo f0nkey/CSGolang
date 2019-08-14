@@ -18,8 +18,8 @@ var (
 type Editor struct {
 	procHandle w32.HANDLE
 	byteOrder  binary.ByteOrder
-	DLLEngine uintptr
-	DLLClient uintptr
+	DLLEngine int32
+	DLLClient int32
 }
 
 func NewEditor(procName string) (e *Editor) {
@@ -34,8 +34,8 @@ func NewEditor(procName string) (e *Editor) {
 		log.Fatal(err)
 	}
 
-	dllEngine := uintptr(unsafe.Pointer(GetDLLModuleAddress("engine.dll", pid)))
-	dllClient := uintptr(unsafe.Pointer(GetDLLModuleAddress("client_panorama.dll", pid)))
+	dllEngine := int32(uintptr(unsafe.Pointer(GetDLLModuleAddress("engine.dll", pid))))
+	dllClient := int32(uintptr(unsafe.Pointer(GetDLLModuleAddress("client_panorama.dll", pid))))
 
 	return &Editor{procHandle, binary.LittleEndian, dllEngine,dllClient}
 }
@@ -43,9 +43,9 @@ func NewEditor(procName string) (e *Editor) {
 
 
 
-func (e Editor) Read(size int32, offsets ...uintptr) (RawData, error) {
+func (e Editor) Read(size int32, offsets ...int32) (RawData, error) {
 	var err error
-	var offset uintptr
+	var offset int32
 	for i, currOffset := range offsets {
 		offset += currOffset
 		buf := make([]byte, size)
@@ -66,14 +66,46 @@ func (e Editor) Read(size int32, offsets ...uintptr) (RawData, error) {
 		if err := binary.Read(newReader, binary.LittleEndian, &m); err != nil {
 			log.Println(err)
 		}
-		offset = uintptr(m)
+		offset = m
 
 	}
 
 	return RawData{}, err
 }
 
-func (e Editor) Write(addr uintptr, data interface{}) error {
+func (e Editor) Read2(size int32, offsets ...int32) (RawData) {
+	var offset int32
+	for i, currOffset := range offsets {
+		offset += currOffset
+		buf := make([]byte, size)
+		_, _, _ = procReadProcessMemory.Call(
+			uintptr(e.procHandle), //handle to dll within proc
+			uintptr(offset),
+			uintptr(unsafe.Pointer(&buf[0])),
+			uintptr(size),                     //size of datatype
+			uintptr(unsafe.Pointer(nil)), //bytesRead
+		)
+
+		if i == len(offsets)-1 { // no longer must dereference, reached final value
+			//for left, right := 0, len(buf)-1; left < right; left, right = left+1, right-1 {
+			//	buf[left], buf[right] = buf[right], buf[left]
+			//} //reversing to littleendian
+			return buf
+		}
+
+		var m int32
+		newReader := bytes.NewBuffer(buf)
+		if err := binary.Read(newReader, binary.LittleEndian, &m); err != nil {
+			log.Println(err)
+		}
+		offset = m
+
+	}
+
+	return RawData{}
+}
+
+func (e Editor) Write(addr int32, data interface{}) error {
 	typeSize := reflect.TypeOf(data).Size()
 
 	//postData, err := GetBytes(data)
@@ -92,7 +124,7 @@ func (e Editor) Write(addr uintptr, data interface{}) error {
 	buf := preBuf.Bytes()
 	err1, _, status := procWriteProcessMemory.Call(
 		uintptr(e.procHandle),
-		addr,
+		uintptr(addr),
 		uintptr(unsafe.Pointer(&buf[0])), //lpBuffer
 		typeSize,
 		uintptr(unsafe.Pointer(nil)),
@@ -147,51 +179,6 @@ type HitBox struct {
 	Pad2     [0x10]byte /// 0x34
 }
 
-const (
-	Hitbox_Head            = iota
-	Hitbox_Neck            = iota
-	Hitbox_Pelvis          = iota
-	Hitbox_Stomach         = iota
-	Hitbox_Chest           = iota
-	Hitbox_Lower_Chest     = iota
-	Hitbox_Upper_Chest     = iota
-	Hitbox_Right_Thigh     = iota
-	Hitbox_Left_Thigh      = iota
-	Hitbox_Right_Calf      = iota
-	Hitbox_Left_Calf       = iota
-	Hitbox_Right_Foot      = iota
-	Hitbox_Left_Foot       = iota
-	Hitbox_Right_Hand      = iota
-	Hitbox_Left_Hand       = iota
-	Hitbox_Right_Upper_Arm = iota
-	Hitbox_Right_Lower_Arm = iota
-	Hitbox_Left_Upper_Arm  = iota
-	Hitbox_Left_Lower_Arm  = iota
-	Hitbox_Last            = iota
-)
-
-var hitBoxIDS []string = []string{
-	"Hitbox_Head",
-	"Hitbox_Neck",
-	"Hitbox_Pelvis",
-	"Hitbox_Stomach",
-	"Hitbox_Chest",
-	"Hitbox_Lower_Chest",
-	"Hitbox_Upper_Chest",
-	"Hitbox_Right_Thigh",
-	"Hitbox_Left_Thigh",
-	"Hitbox_Right_Calf",
-	"Hitbox_Left_Calf",
-	"Hitbox_Right_Foot",
-	"Hitbox_Left_Foot",
-	"Hitbox_Right_Hand",
-	"Hitbox_Left_Hand",
-	"Hitbox_Right_Upper_Arm",
-	"Hitbox_Right_Lower_Arm",
-	"Hitbox_Left_Upper_Arm",
-	"Hitbox_Left_Lower_Arm",
-	"Hitbox_Last",
-}
 
 type Vector3 struct {
 	X, Y, Z float32

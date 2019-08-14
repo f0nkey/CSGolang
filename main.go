@@ -1,19 +1,25 @@
 package main
 
 import (
-	"F0nkHack3/feature"
-	"F0nkHack3/ferror"
-	"F0nkHack3/memory"
-	"F0nkHack3/offset"
-	"F0nkHack3/render"
+	"F0nkHack/feature"
+	"F0nkHack/ferror"
+	"F0nkHack/memory"
+	"F0nkHack/offset"
+	"F0nkHack/render"
 	"fmt"
+	"golang.org/x/exp/shiny/materialdesign/colornames"
 	"log"
+	"net"
+	"net/http"
 	"time"
 )
 
-var enableVisuals = false
+var enableVisuals = true
+
+var windowWidth, windowHeight float32
 
 func main() {
+	initExpVarServer()
 	offset.MarshalOffsets()
 	memEditor := memory.NewEditor("csgo.exe")
 	ps := feature.NewPlayerStore(10)
@@ -35,13 +41,20 @@ func main() {
 
 	go feature.BHop(memEditor)
 
-	//var mm = 1
+	var mm = 1
 	if enableVisuals {
 		gw := render.NewDrawingOverlay("Counter-Strike: Global Offensive", "F0nkOverlay",
 			func(canvas *render.DrawingCanvas) {
 
-			//canvas.AddLine(50, mm, 900, 900, 1, colornames.Amber900)
-			//mm++
+				ps.UpdateAllPlayers(memEditor)
+				vm, err := feature.GetViewMatrix(memEditor)
+				if err != nil {
+					log.Println(err)
+				}
+
+				feature.DrawBones(canvas,ps,vm)
+				canvas.AddLine(500, 50, 900, 900, 1, colornames.Amber900)
+				mm++
 
 		})
 		gw.RunGL()
@@ -52,6 +65,18 @@ func main() {
 	}
 
 
+}
+
+func initExpVarServer() error {
+	sock, err := net.Listen("tcp", "localhost:8181")
+	if err != nil {
+		return err
+	}
+	go func() {
+		fmt.Println("HTTP now available at port 8123")
+		http.Serve(sock, nil)
+	}()
+	return nil
 }
 
 

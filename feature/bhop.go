@@ -1,9 +1,9 @@
 package feature
 
 import (
-	"F0nkHack3/ferror"
-	"F0nkHack3/memory"
-	"F0nkHack3/offset"
+	"F0nkHack/ferror"
+	"F0nkHack/memory"
+	"F0nkHack/offset"
 	"github.com/AllenDang/w32"
 	"log"
 	"time"
@@ -22,7 +22,7 @@ func BHop(mem *memory.Editor){
 
 		r, err := mem.Read(4,dllClient+offset.Signatures.DwLocalPlayer, offset.Netvars.MFFlags)
 		if ferror.ErrIsImportant(err) {
-			log.Println("Bhop:",err)
+			log.Println("BHop:",err)
 		}
 		onGround := r.Uintptr() & (1 << 0)
 		if onGround == 1 {
