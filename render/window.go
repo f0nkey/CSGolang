@@ -57,7 +57,7 @@ func (g guiWindow) createWindowAndRenderLoop() {
 	canv := DrawingCanvas{imd, int(g.targetWindowRect.Right), int(g.targetWindowRect.Bottom),basicAtlas,window}
 
 	for !window.Closed() {
-		time.Sleep(time.Millisecond * 32)
+		time.Sleep(time.Millisecond * 8)
 		window.Clear(color.RGBA{0x00, 0x00, 0x00, 0x00})
 		imd.Clear()
 
