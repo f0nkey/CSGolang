@@ -6,7 +6,7 @@ import (
 	"F0nkHack/offset"
 	"golang.org/x/xerrors"
 	"log"
-	"unicode"
+	"regexp"
 	"unsafe"
 )
 
@@ -97,15 +97,13 @@ func readBonesWorldPos(playerAddr int32, editor *memory.Editor) (map[uintptr]mem
 	return Bones, nil
 }
 
-func cleanupName(s string) string {
-	runes := []rune(s)
-	newName := make([]rune, len(runes))
-	for _, char := range s {
-		if unicode.IsPrint(char) {
-			newName = append(newName, char)
-		}
+func cleanupName(s string) string { //getName grabs lots of odd unknown characters
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+") //TODO: accept punctuation and spaces
+	if err != nil {
+		log.Fatal(err)
 	}
-	return string(newName[30:]) //TODO: Less hacky way to cleanup text, or remove need to cleanup text with better getName
+
+	return reg.ReplaceAllString(s, "")
 }
 
 func getName(playerIndex, playerAddr int32, editor *memory.Editor) string {

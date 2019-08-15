@@ -2,7 +2,6 @@ package types
 
 import (
 	"F0nkHack/memory"
-	"fmt"
 	"github.com/AllenDang/w32"
 )
 
@@ -16,6 +15,5 @@ func GetWindowSize() WindowRect {
 		panic("Did not find Counter-Strike: Global Offensive window. Is CS:GO is open?")
 	}
 	rect := w32.GetWindowRect(w32.HWND(w))
-	fmt.Println("rect", rect)
 	return WindowRect{rect.Right - rect.Left, rect.Bottom - rect.Top}
 }

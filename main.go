@@ -6,6 +6,7 @@ import (
 	"F0nkHack/offset"
 	"F0nkHack/render"
 	"F0nkHack/types"
+	"fmt"
 	"log"
 	"time"
 )
@@ -16,27 +17,38 @@ var windowSize = types.GetWindowSize()
 
 func main() {
 
-	offset.MarshalOffsets()
+	config := feature.InitConfig()
+	go feature.WatchConfig(config)
+
+	offset.InitOffsets()
 	memEditor := memory.NewEditor("csgo.exe")
+
 	ps := feature.NewPlayerStore(10)
 	ps.UpdateAllPlayers(memEditor)
 
-	go feature.BHop(memEditor)
+	go feature.BHop(memEditor, config.Toggles.Bhop)
 
-	if enableVisuals {
-		gw := render.NewDrawingOverlay("Counter-Strike: Global Offensive", "F0nkOverlay",
-			func(canvas *render.DrawingCanvas) {
+	fmt.Println(config)
 
-				ps.UpdateAllPlayers(memEditor)
-				vm, err := feature.GetViewMatrix(memEditor)
-				if err != nil {
-					log.Println(err)
-				}
+	gw := render.NewDrawingOverlay("Counter-Strike: Global Offensive", "F0nkOverlay",
+		func(canvas *render.DrawingCanvas) {
 
+			ps.UpdateAllPlayers(memEditor)
+			vm, err := feature.GetViewMatrix(memEditor)
+			if err != nil {
+				log.Println(err)
+			}
+
+			if config.Toggles.Skeleton {
 				feature.DrawBones(canvas, ps, vm, windowSize)
-			})
-		gw.RunGL()
-	}
+			}
+
+			if config.Toggles.Name {
+				feature.DrawNames(canvas,ps,vm)
+			}
+
+		})
+	gw.RunGL()
 
 	for {
 		time.Sleep(time.Millisecond * 5)

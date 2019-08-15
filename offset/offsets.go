@@ -13,10 +13,10 @@ import (
 var Signatures *signatures
 var Netvars *netvars
 
-func MarshalOffsets() {
+func InitOffsets() {
 	resp, err := http.Get("https://raw.githubusercontent.com/frk1/hazedumper/master/csgo.json")
 	if err != nil {
-		log.Println("MarshalOffsets:", err)
+		log.Println("InitOffsets:", err)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -24,20 +24,15 @@ func MarshalOffsets() {
 
 	}
 
-	fmt.Println("bod", body)
-
 	var off offsets
 	err = json.Unmarshal(body, &off)
 	if err != nil {
-		log.Println("MarshalOffsets:", err)
+		log.Println("InitOffsets:", err)
 	}
-	fmt.Println("MarshalOffsets:", err)
 
 	if offsetsOutdated(off) {
-		fmt.Println("OFFSETS POSSIBLY OUTDATED")
+		fmt.Println("OFFSETS POSSIBLY OUTDATED") //todo: make this more apparent to user through UI
 	}
-
-	fmt.Println("of", off)
 
 	Signatures = &off.Signatures
 	Netvars = &off.Netvars
@@ -47,7 +42,7 @@ func offsetsOutdated(Offsets offsets) bool {
 	offsetsPostDate := time.Unix(int64(Offsets.Timestamp), 0)
 	csgoLatestDate, err := time.Parse("2006-01-02", strings.Replace(getCurrentCSGOUpdate(), ".", "-", 4))
 	if err != nil {
-		log.Println("MarshalOffsets: bad time parsing", err)
+		log.Println("InitOffsets: bad time parsing", err)
 	}
 
 	return csgoLatestDate.After(offsetsPostDate)
@@ -56,7 +51,7 @@ func offsetsOutdated(Offsets offsets) bool {
 func getCurrentCSGOUpdate() string {
 	resp, err := http.Get("https://blog.counter-strike.net/index.php/category/updates/")
 	if err != nil {
-		log.Println("MarshalOffsets:", err)
+		log.Println("InitOffsets:", err)
 	}
 	preBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {

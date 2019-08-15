@@ -9,10 +9,14 @@ import (
 	"time"
 )
 
-func BHop(mem *memory.Editor) {
+func BHop(mem *memory.Editor, activate bool) {
 	dllClient := mem.DLLClient
 
 	for {
+		if !activate {
+			time.Sleep(time.Millisecond * 3)
+			continue
+		}
 		keySpace := w32.GetAsyncKeyState(0x20)
 		if keySpace == 0 {
 			continue

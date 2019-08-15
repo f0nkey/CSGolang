@@ -1,0 +1,15 @@
+{
+    "toggles": {
+        "bhop": true,
+        "name": true,
+        "skeleton": true
+    },
+    "colorModes": {
+        "name": 0,
+        "skeleton": 0
+    },
+    "seeTeammates": {
+        "name": true,
+        "skeleton": true
+    }
+}

@@ -7,6 +7,8 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
+	"github.com/faiface/pixel/text"
+	"golang.org/x/image/font/basicfont"
 	"image/color"
 	"log"
 	"time"
@@ -49,8 +51,10 @@ func (g guiWindow) createWindowAndRenderLoop() {
 		panic(err)
 	}
 
+	basicAtlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+
 	imd := imdraw.New(nil)
-	canv := DrawingCanvas{imd, int(g.targetWindowRect.Right), int(g.targetWindowRect.Bottom)}
+	canv := DrawingCanvas{imd, int(g.targetWindowRect.Right), int(g.targetWindowRect.Bottom),basicAtlas,window}
 
 	for !window.Closed() {
 		time.Sleep(time.Millisecond * 16)

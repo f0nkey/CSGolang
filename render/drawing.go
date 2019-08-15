@@ -1,14 +1,20 @@
 package render
 
 import (
+	"fmt"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
+	"github.com/faiface/pixel/pixelgl"
+	tx "github.com/faiface/pixel/text"
+	"golang.org/x/image/colornames"
 	"image/color"
 )
 
 type DrawingCanvas struct {
 	*imdraw.IMDraw
 	windowWidth, windowHeight int
+	*tx.Atlas
+	*pixelgl.Window
 }
 
 func (d DrawingCanvas) AddLine(x, y, cx, cy int, thickness float32, color color.RGBA) {
@@ -21,7 +27,23 @@ func (d DrawingCanvas) AddLine(x, y, cx, cy int, thickness float32, color color.
 
 }
 
-// IMDraw doesn't use opengl coords starting from top left
+func (d DrawingCanvas) AddText(x, y int, text string, color color.RGBA) {
+
+	x, y, _, _ = fixCoordinates(x,y,0,0, d.windowHeight)
+
+	basicTxt := tx.New(pixel.V(float64(x-1), float64(y-1)), d.Atlas)
+	basicTxt.Color = colornames.Black
+	fmt.Fprintln(basicTxt, text)
+	basicTxt.Draw(d.Window, pixel.IM)
+
+	basicTxt = tx.New(pixel.V(float64(x), float64(y)), d.Atlas)
+	basicTxt.Color = color
+	fmt.Fprintln(basicTxt, text)
+	basicTxt.Draw(d.Window, pixel.IM)
+
+}
+
+// since IMDraw doesn't use coords starting from top left
 func fixCoordinates(x, y, cx, cy, windowHeight int) (int, int, int, int) {
 	return x, windowHeight - y, cx, windowHeight - cy
 }
