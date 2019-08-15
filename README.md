@@ -11,5 +11,5 @@
  1. Download and extract the [latest release](https://github.com/f0nkey/F0nkHack/releases).
  2. Open CS:GO in **fullscreen windowed** mode at 1920x1080.
  3. Run F0nkHack.exe.
- 4. Navigate to http://localhost:8085 in your web browser to change settings.
+ 4. Navigate to http://localhost:8085 in your web browser (or Steam browser) to change settings.
  
