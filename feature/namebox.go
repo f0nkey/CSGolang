@@ -10,9 +10,12 @@ import (
 func DrawNames(canvas *render.DrawingCanvas, ps *PlayerStore, vm memory.CSMatrix) {
 
 	for _, currPlayer := range ps.Players {
-
+		if currPlayer.IsDormant {
+			continue
+		}
 		x,y := textPosition(currPlayer, vm)
 		//addLine(0,0,1920,1080,ic.R,120,120)
+		canvas.AddText(x+1,y+1,currPlayer.Name, colornames.Black)
 		canvas.AddText(x,y,currPlayer.Name, colornames.Amber900)
 
 		//addText(fontm, textDisplay, int(basePos.X-(boxWidth/2))-2+1, int(basePos.Y-boxHeight)-3+1, 1, 0, 0)

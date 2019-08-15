@@ -13,11 +13,13 @@ import (
 type PlayerStore struct {
 	Players    []Player
 	maxPlayers int32
+	headZPositions map[int32]float32
 }
 
 func NewPlayerStore(maxPlayers int32) *PlayerStore {
 	players := make([]Player, maxPlayers)
-	return &PlayerStore{players, maxPlayers}
+	headZPositions := make(map[int32]float32) //playerIndex, headzPos
+	return &PlayerStore{players, maxPlayers,headZPositions}
 }
 
 func (ps PlayerStore) UpdateAllPlayers(editor *memory.Editor) {
@@ -32,15 +34,17 @@ func (ps PlayerStore) UpdateAllPlayers(editor *memory.Editor) {
 			log.Println("UpdateAllPlayers:", err)
 		}
 		pp := r.InternalPlayer()
-		if (pp.Team != 3 && pp.Team != 2) || pp.HP <= 0 { // is not a player, or alive
+		if pp.Team != 3 && pp.Team != 2 { // is not a player, or alive
 			continue
 		}
 
 		bonePositions, err := readBonesWorldPos(playerAddr, editor) //todo: fix me fucker
 		if err != nil {
-			log.Println("UpdateAllPlayers:", err) //TODO: remove UpdateAllPlayers from where it doesnt belong
+			log.Println("UpdateAllPlayers:", err)
 		}
-		name := cleanupName(getName(i, playerAddr, editor))
+
+		dormant := dormancy(ps, i, bonePositions)
+		ps.headZPositions[i] = bonePositions[Hitbox_Head].Z
 
 		currPlayer = Player{
 			EntListIndex:    i,
@@ -48,12 +52,23 @@ func (ps PlayerStore) UpdateAllPlayers(editor *memory.Editor) {
 			Team:            pp.Team,
 			HP:              pp.HP,
 			Position:        memory.Vector3{pp.X, pp.Y, pp.Z},
-			Name:            name,
-			AngleDifference: 0,
+			Name:            cleanupName(getName(i, playerAddr, editor)),
 			BonePositions:   bonePositions,
+			IsDormant:       dormant,
 		}
 
 		ps.Players[i] = currPlayer
+	}
+}
+
+func dormancy(ps PlayerStore, playerIndex int32, bonePositions map[uintptr]memory.Vector3) bool {
+	prevHeadPos := ps.headZPositions[playerIndex]
+	currHeadPos := bonePositions[Hitbox_Head].Z
+
+	if prevHeadPos == currHeadPos {
+		return true
+	} else {
+		return false
 	}
 }
 
@@ -132,6 +147,6 @@ type Player struct {
 	HP              int32
 	Position        memory.Vector3
 	Name            string
-	AngleDifference float32                    //from head to center of screen
 	BonePositions   map[uintptr]memory.Vector3 //using Hitbox consts to refer to bones
+	IsDormant 		bool
 }

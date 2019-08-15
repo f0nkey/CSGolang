@@ -53,19 +53,14 @@ var hitBoxIDS []string = []string{
 	"Hitbox_Last",
 }
 
-var headZPositions = make(map[int32]float32) //playerIndex, headzPos
+
 
 func DrawBones(canvas *render.DrawingCanvas, ps *PlayerStore, viewMatrix memory.CSMatrix, windowSize types.WindowRect) {
 	players := ps.Players
 	for _, currPlayer := range players {
-		if !isWithinFov(currPlayer.Position, viewMatrix, windowSize) || currPlayer.EntListIndex == 0 {
+		if !isWithinFov(currPlayer.Position, viewMatrix, windowSize) || currPlayer.EntListIndex == 0 || currPlayer.IsDormant {
 			continue
 		}
-
-		if currPlayer.BonePositions[Hitbox_Head].Z == headZPositions[currPlayer.EntListIndex] { // Ghetto dormant check
-			continue
-		}
-		headZPositions[currPlayer.EntListIndex] = currPlayer.BonePositions[Hitbox_Head].Z
 
 		//todo: make more DRY
 		spine := []int{Hitbox_Head, Hitbox_Neck, Hitbox_Upper_Chest, Hitbox_Lower_Chest, Hitbox_Chest, Hitbox_Stomach, Hitbox_Pelvis}
