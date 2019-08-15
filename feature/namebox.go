@@ -4,24 +4,19 @@ import (
 	"F0nkHack/memory"
 	"F0nkHack/render"
 	"github.com/chewxy/math32"
-	"golang.org/x/exp/shiny/materialdesign/colornames"
+	"image/color"
 )
 
-func DrawNames(canvas *render.DrawingCanvas, ps *PlayerStore, vm memory.CSMatrix) {
+func DrawNames(canvas *render.DrawingCanvas, ps *PlayerStore, vm memory.CSMatrix, colorMode int) {
 
 	for _, currPlayer := range ps.Players {
 		if currPlayer.IsDormant {
 			continue
 		}
 		x,y := textPosition(currPlayer, vm)
-		//addLine(0,0,1920,1080,ic.R,120,120)
-		canvas.AddText(x+1,y+1,currPlayer.Name, colornames.Black)
-		canvas.AddText(x,y,currPlayer.Name, colornames.Amber900)
-
-		//addText(fontm, textDisplay, int(basePos.X-(boxWidth/2))-2+1, int(basePos.Y-boxHeight)-3+1, 1, 0, 0)
-		//addText(fontm, textDisplay, int(basePos.X-(boxWidth/2))-2, int(basePos.Y-boxHeight)-3, ic.R, ic.G, ic.B)
-
-		//addRect(int(basePos.X-(boxWidth/2)), int(basePos.Y-boxHeight), int(boxWidth), int(boxHeight), ic.R, ic.G, ic.B)
+		col := getColor(colorMode, currPlayer.HP, currPlayer.Team)
+		canvas.AddText(x+1,y+1,currPlayer.Name, color.RGBA{0,0,0,255})
+		canvas.AddText(x,y,currPlayer.Name, col)
 	}
 }
 

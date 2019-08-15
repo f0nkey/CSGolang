@@ -40,11 +40,11 @@ func main() {
 			}
 
 			if config.Toggles.Skeleton {
-				feature.DrawBones(canvas, ps, vm, windowSize)
+				feature.DrawBones(canvas, ps, vm, windowSize, config.ColorModes.Skeleton)
 			}
 
 			if config.Toggles.Name {
-				feature.DrawNames(canvas,ps,vm)
+				feature.DrawNames(canvas,ps,vm, config.ColorModes.Name)
 			}
 
 		})

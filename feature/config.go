@@ -3,7 +3,9 @@ package feature
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/chewxy/math32"
 	"hash/fnv"
+	"image/color"
 	"io/ioutil"
 	"log"
 	"os"
@@ -31,7 +33,7 @@ const (
 	ColorModeTeam = iota
 )
 
-func InitConfig() *Config{
+func InitConfig() *Config {
 	confBytes, err := ioutil.ReadFile("config.json")
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -115,7 +117,21 @@ func defaultConfig() Config{
 			Skeleton bool `json:"skeleton"`
 		}{true,true},
 	}
+}
 
+func getColor(colorMode int, hp int32, team int32) color.RGBA{
+	if colorMode == ColorModeHealth {
+		r := uint8(math32.Min((510*(100-float32(hp)))/100, 255))
+		g := uint8(math32.Min((510*float32(hp))/100, 255))
+		return color.RGBA{r,g,0,255}
+	}
+	if colorMode == ColorModeTeam {
+		if team == 2 {
+			return color.RGBA{255, 131, 8, 255} //ct
+		}
+		return color.RGBA{7, 21, 210, 255} //t
+	}
+	return color.RGBA{255, 255, 255, 255}
 }
 
 func hash(s string) uint32 {
