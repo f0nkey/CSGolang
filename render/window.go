@@ -8,8 +8,11 @@ import (
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel/text"
-	"golang.org/x/image/font/basicfont"
+	"github.com/golang/freetype"
+	"github.com/golang/freetype/truetype"
+	"golang.org/x/image/font"
 	"image/color"
+	"io/ioutil"
 	"log"
 	"time"
 )
@@ -51,7 +54,19 @@ func (g guiWindow) createWindowAndRenderLoop() {
 		panic(err)
 	}
 
-	basicAtlas := text.NewAtlas(basicfont.Face7x13, text.ASCII)
+	fontBytes, err := ioutil.ReadFile("fixed.ttf")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	f, err := freetype.ParseFont(fontBytes)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	face := truetype.NewFace(f,&truetype.Options{16,0,font.HintingNone,0,0,0})
+	basicAtlas := text.NewAtlas(face, text.ASCII)
 
 	imd := imdraw.New(nil)
 	canv := DrawingCanvas{imd, int(g.targetWindowRect.Right), int(g.targetWindowRect.Bottom),basicAtlas,window}
