@@ -13,10 +13,10 @@ func DrawNames(canvas *render.DrawingCanvas, ps *PlayerStore, vm memory.CSMatrix
 		if currPlayer.IsDormant {
 			continue
 		}
-		x,y := textPosition(currPlayer, vm)
+		x, y := textPosition(currPlayer, vm)
 		col := getColor(colorMode, currPlayer.HP, currPlayer.Team)
-		canvas.AddText(x+1,y+1,currPlayer.Name, color.RGBA{0,0,0,255})
-		canvas.AddText(x,y,currPlayer.Name, col)
+		canvas.AddText(x+1, y+1, currPlayer.Name, color.RGBA{0, 0, 0, 255})
+		canvas.AddText(x, y, currPlayer.Name, col)
 	}
 }
 
@@ -29,7 +29,5 @@ func textPosition(currPlayer Player, vm memory.CSMatrix) (int, int) {
 	var boxHeight float32 = math32.Abs(headPos.Y - basePos.Y)
 	var boxWidth = boxHeight / 2
 
-	return int(basePos.X-(boxWidth/2))-2, int(basePos.Y-boxHeight)-3
+	return int(basePos.X-(boxWidth/2)) - 2, int(basePos.Y-boxHeight) - 3
 }
-
-

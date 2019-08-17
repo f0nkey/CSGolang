@@ -69,6 +69,7 @@ func (e Editor) Read(size int32, offsets ...int32) (RawData, error) {
 	return RawData{}, err
 }
 
+//todo: add error to RawData which carries error to the .Int32 functions and returns them there
 func (e Editor) Read2(size int32, offsets ...int32) RawData {
 	var offset int32
 	for i, currOffset := range offsets {
@@ -124,6 +125,8 @@ func (e Editor) Write(addr int32, data interface{}) error {
 
 type RawData []byte
 
+//todo: move to types.go
+//todo: add length checks
 func (r RawData) Int32() int32 {
 	return int32(binary.LittleEndian.Uint32(r))
 }

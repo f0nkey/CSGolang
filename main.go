@@ -6,7 +6,6 @@ import (
 	"F0nkHack/offset"
 	"F0nkHack/render"
 	"F0nkHack/types"
-	"fmt"
 	"log"
 	"time"
 )
@@ -19,6 +18,7 @@ func main() {
 
 	config := feature.InitConfig()
 	go feature.WatchConfig(config)
+	go feature.RunConfigEndpoint(config)
 
 	offset.InitOffsets()
 	memEditor := memory.NewEditor("csgo.exe")
@@ -27,8 +27,6 @@ func main() {
 	ps.UpdateAllPlayers(memEditor)
 
 	go feature.BHop(memEditor, config.Toggles.Bhop)
-
-	fmt.Println(config)
 
 	gw := render.NewDrawingOverlay("Counter-Strike: Global Offensive", "F0nkOverlay",
 		func(canvas *render.DrawingCanvas) {
@@ -44,7 +42,7 @@ func main() {
 			}
 
 			if config.Toggles.Name {
-				feature.DrawNames(canvas,ps,vm, config.ColorModes.Name)
+				feature.DrawNames(canvas, ps, vm, config.ColorModes.Name)
 			}
 
 		})

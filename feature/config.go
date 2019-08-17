@@ -2,36 +2,127 @@ package feature
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/chewxy/math32"
 	"hash/fnv"
 	"image/color"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
+	"reflect"
 	"time"
+)
+
+const (
+	ColorModeHealth = iota
+	ColorModeTeam   = iota
 )
 
 type Config struct {
 	Toggles struct {
-		Bhop     bool`json:"bhop"`
-		Name     bool`json:"name"`
-		Skeleton bool`json:"skeleton"`
+		Bhop     bool `json:"bhop"`
+		Name     bool `json:"name"`
+		Skeleton bool `json:"skeleton"`
 	} `json:"toggles"`
 	ColorModes struct {
-		Name     int`json:"name"`
-		Skeleton int`json:"skeleton"`
+		Name     int `json:"name"`
+		Skeleton int `json:"skeleton"`
 	} `json:"colorModes"`
 	SeeTeammates struct {
-		Name    bool `json:"name"`
-		Skeleton bool`json:"skeleton"`
+		Name     bool `json:"name"`
+		Skeleton bool `json:"skeleton"`
 	} `json:"seeTeammates"`
 }
 
-const (
-	ColorModeHealth = iota
-	ColorModeTeam = iota
-)
+func defaultConfig() Config {
+	return Config{
+		Toggles: struct {
+			Bhop     bool `json:"bhop"`
+			Name     bool `json:"name"`
+			Skeleton bool `json:"skeleton"`
+		}{true, true, true},
+		ColorModes: struct {
+			Name     int `json:"name"`
+			Skeleton int `json:"skeleton"`
+		}{ColorModeTeam, ColorModeHealth},
+		SeeTeammates: struct {
+			Name     bool `json:"name"`
+			Skeleton bool `json:"skeleton"`
+		}{true, true},
+	}
+}
+
+func RunConfigEndpoint(masterConfig *Config) {
+	http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" {
+			bodyBytes, _ := ioutil.ReadAll(r.Body)
+			oldConfig := *masterConfig
+			err := json.Unmarshal(bodyBytes, &masterConfig)
+			if err != nil {
+				rw.Write([]byte("Error json parsing:" + err.Error()))
+				log.Println("runConfigEndpoint:", err)
+			}
+			from, to, err := changedConfigField(&oldConfig, masterConfig)
+			if err != nil {
+				rw.Write([]byte("Changed nothing"))
+				return
+			}
+			err = writeConfig(masterConfig)
+			if err != nil {
+				log.Println("RunConfigEndpoint", err)
+			}
+			msg := fmt.Sprintf("Changed %v = %v to %v", from.Field, from.Value, to.Value)
+			rw.Write([]byte(msg))
+		} else {
+			rw.Write([]byte("Use POST with json as a body"))
+		}
+	})
+	if err := http.ListenAndServe(":9991", nil); err != nil {
+		panic(err)
+	}
+}
+
+func writeConfig(c *Config) error {
+	b, err := json.MarshalIndent(&c, "", "	")
+	if err != nil {
+		return errors.New("writeConfig:" + err.Error())
+	}
+	err = ioutil.WriteFile("config.json", b, 0644)
+	if err != nil {
+		return errors.New("writeConfig:" + err.Error())
+	}
+	return nil
+}
+
+func changedConfigField(old, new *Config) (FieldValuePair, FieldValuePair, error) {
+	oldPairs := fieldValPairs(*old)
+	newPairs := fieldValPairs(*new)
+	for i := 0; i < len(oldPairs); i++ {
+		if oldPairs[i].Value != newPairs[i].Value {
+			return oldPairs[i], newPairs[i], nil
+		}
+	}
+	return FieldValuePair{}, FieldValuePair{}, errors.New("Found no changes")
+}
+
+func fieldValPairs(x Config) []FieldValuePair {
+	s := reflect.ValueOf(&x).Elem()
+	res := make([]FieldValuePair, s.NumField())
+	typeOfX := s.Type()
+	for i := 0; i < s.NumField(); i++ {
+		f := s.Field(i)
+		field := fmt.Sprint(typeOfX.Field(i).Name, f.Type())
+		res = append(res, FieldValuePair{field, f.Interface()})
+	}
+	return res
+}
+
+type FieldValuePair struct {
+	Field string
+	Value interface{}
+}
 
 func InitConfig() *Config {
 	confBytes, err := ioutil.ReadFile("config.json")
@@ -51,12 +142,12 @@ func InitConfig() *Config {
 	return &conf
 }
 
-func WatchConfig(mainConfig *Config) {
+func WatchConfig(masterConfig *Config) {
 	confBytes, err := ioutil.ReadFile("config.json")
 	if err != nil {
 		if os.IsNotExist(err) {
 			createDefaultConfig()
-			go WatchConfig(mainConfig)
+			go WatchConfig(masterConfig)
 			return
 		}
 		log.Println("watchConfig", err)
@@ -68,7 +159,7 @@ func WatchConfig(mainConfig *Config) {
 		if err != nil {
 			if os.IsNotExist(err) {
 				createDefaultConfig()
-				go WatchConfig(mainConfig)
+				go WatchConfig(masterConfig)
 				return
 			}
 			log.Println("watchConfig", err)
@@ -77,7 +168,7 @@ func WatchConfig(mainConfig *Config) {
 		if hash != initHash {
 			initHash = hash
 			confBytes, err = ioutil.ReadFile("config.json")
-			err = json.Unmarshal(confBytes,&mainConfig)
+			err = json.Unmarshal(confBytes, &masterConfig)
 			if err != nil {
 				log.Println("WatchConfig", err)
 			}
@@ -91,39 +182,21 @@ func WatchConfig(mainConfig *Config) {
 func createDefaultConfig() {
 	fmt.Println("Creating default config")
 	c := defaultConfig()
-	b, err := json.MarshalIndent(&c,"","	")
+	b, err := json.MarshalIndent(&c, "", "	")
 	if err != nil {
-		log.Println("createDefaultConfig",err)
+		log.Println("createDefaultConfig", err)
 	}
-	err = ioutil.WriteFile("config.json",b,0644)
+	err = ioutil.WriteFile("config.json", b, 0644)
 	if err != nil {
-		log.Println("createDefaultConfig",err)
+		log.Println("createDefaultConfig", err)
 	}
 }
 
-func defaultConfig() Config{
-	return Config{
-		Toggles: struct {
-			Bhop     bool `json:"bhop"`
-			Name     bool `json:"name"`
-			Skeleton bool `json:"skeleton"`
-		}{true,true,true},
-		ColorModes: struct {
-			Name     int `json:"name"`
-			Skeleton int `json:"skeleton"`
-		}{ColorModeTeam,ColorModeHealth},
-		SeeTeammates: struct {
-			Name     bool `json:"name"`
-			Skeleton bool `json:"skeleton"`
-		}{true,true},
-	}
-}
-
-func getColor(colorMode int, hp int32, team int32) color.RGBA{
+func getColor(colorMode int, hp int32, team int32) color.RGBA {
 	if colorMode == ColorModeHealth {
 		r := uint8(math32.Min((510*(100-float32(hp)))/100, 255))
 		g := uint8(math32.Min((510*float32(hp))/100, 255))
-		return color.RGBA{r,g,0,255}
+		return color.RGBA{r, g, 0, 255}
 	}
 	if colorMode == ColorModeTeam {
 		if team == 2 {

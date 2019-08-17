@@ -28,7 +28,7 @@ func (d DrawingCanvas) AddLine(x, y, cx, cy int, thickness float32, color color.
 
 func (d DrawingCanvas) AddText(x, y int, text string, color color.RGBA) {
 
-	x, y, _, _ = fixCoordinates(x,y,0,0, d.windowHeight)
+	x, y, _, _ = fixCoordinates(x, y, 0, 0, d.windowHeight)
 	basicTxt := tx.New(pixel.V(float64(x), float64(y)), d.Atlas)
 	basicTxt.Color = color
 	fmt.Fprintln(basicTxt, text)

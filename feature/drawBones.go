@@ -53,8 +53,6 @@ var hitBoxIDS []string = []string{
 	"Hitbox_Last",
 }
 
-
-
 func DrawBones(canvas *render.DrawingCanvas, ps *PlayerStore, viewMatrix memory.CSMatrix, windowSize types.WindowRect, colorMode int) {
 	players := ps.Players
 	for _, currPlayer := range players {
@@ -62,12 +60,12 @@ func DrawBones(canvas *render.DrawingCanvas, ps *PlayerStore, viewMatrix memory.
 			continue
 		}
 
-		var boneLinks = [][]int {
+		var boneLinks = [][]int{
 			[]int{Hitbox_Head, Hitbox_Neck, Hitbox_Upper_Chest, Hitbox_Lower_Chest, Hitbox_Chest, Hitbox_Stomach, Hitbox_Pelvis}, // spine
-			[]int{Hitbox_Left_Foot, Hitbox_Left_Calf, Hitbox_Left_Thigh, Hitbox_Pelvis}, // left leg
-			[]int{Hitbox_Right_Foot, Hitbox_Right_Calf, Hitbox_Right_Thigh, Hitbox_Pelvis}, // right leg
-			[]int{Hitbox_Left_Hand, Hitbox_Left_Lower_Arm, Hitbox_Left_Upper_Arm, Hitbox_Upper_Chest}, // left arm
-			[]int{Hitbox_Right_Hand, Hitbox_Right_Lower_Arm, Hitbox_Right_Upper_Arm, Hitbox_Upper_Chest}, //right arm
+			[]int{Hitbox_Left_Foot, Hitbox_Left_Calf, Hitbox_Left_Thigh, Hitbox_Pelvis},                                          // left leg
+			[]int{Hitbox_Right_Foot, Hitbox_Right_Calf, Hitbox_Right_Thigh, Hitbox_Pelvis},                                       // right leg
+			[]int{Hitbox_Left_Hand, Hitbox_Left_Lower_Arm, Hitbox_Left_Upper_Arm, Hitbox_Upper_Chest},                            // left arm
+			[]int{Hitbox_Right_Hand, Hitbox_Right_Lower_Arm, Hitbox_Right_Upper_Arm, Hitbox_Upper_Chest},                         //right arm
 		}
 
 		c := getColor(colorMode, currPlayer.HP, currPlayer.Team)

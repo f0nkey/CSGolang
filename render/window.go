@@ -65,11 +65,11 @@ func (g guiWindow) createWindowAndRenderLoop() {
 		return
 	}
 
-	face := truetype.NewFace(f,&truetype.Options{16,0,font.HintingNone,0,0,0})
+	face := truetype.NewFace(f, &truetype.Options{16, 0, font.HintingNone, 0, 0, 0})
 	basicAtlas := text.NewAtlas(face, text.ASCII)
 
 	imd := imdraw.New(nil)
-	canv := DrawingCanvas{imd, int(g.targetWindowRect.Right), int(g.targetWindowRect.Bottom),basicAtlas,window}
+	canv := DrawingCanvas{imd, int(g.targetWindowRect.Right), int(g.targetWindowRect.Bottom), basicAtlas, window}
 
 	for !window.Closed() {
 		time.Sleep(time.Millisecond * 8)

@@ -11,15 +11,15 @@ import (
 )
 
 type PlayerStore struct {
-	Players    []Player
-	maxPlayers int32
+	Players        []Player
+	maxPlayers     int32
 	headZPositions map[int32]Queue
 }
 
 type Queue [3]float32
 
-func (q Queue) Push(f float32) Queue{
-	return Queue{q[1],q[2], f}
+func (q Queue) Push(f float32) Queue {
+	return Queue{q[1], q[2], f}
 }
 
 func (q Queue) AllEntriesEqual() bool {
@@ -32,7 +32,7 @@ func (q Queue) AllEntriesEqual() bool {
 func NewPlayerStore(maxPlayers int32) *PlayerStore {
 	players := make([]Player, maxPlayers)
 	headZPositions := make(map[int32]Queue) //playerIndex, headzPos
-	return &PlayerStore{players, maxPlayers,headZPositions}
+	return &PlayerStore{players, maxPlayers, headZPositions}
 }
 
 func (ps PlayerStore) UpdateAllPlayers(editor *memory.Editor) {
@@ -60,14 +60,14 @@ func (ps PlayerStore) UpdateAllPlayers(editor *memory.Editor) {
 		dormant := ps.headZPositions[i].AllEntriesEqual()
 
 		currPlayer = Player{
-			EntListIndex:    i,
-			BaseAddr:        editor.DLLClient + offset.Signatures.DwEntityList + (i * 0x10),
-			Team:            pp.Team,
-			HP:              pp.HP,
-			Position:        memory.Vector3{pp.X, pp.Y, pp.Z},
-			Name:            cleanupName(getName(i, playerAddr, editor)),
-			BonePositions:   bonePositions,
-			IsDormant:       dormant,
+			EntListIndex:  i,
+			BaseAddr:      editor.DLLClient + offset.Signatures.DwEntityList + (i * 0x10),
+			Team:          pp.Team,
+			HP:            pp.HP,
+			Position:      memory.Vector3{pp.X, pp.Y, pp.Z},
+			Name:          cleanupName(getName(i, playerAddr, editor)),
+			BonePositions: bonePositions,
+			IsDormant:     dormant,
 		}
 
 		ps.Players[i] = currPlayer
@@ -143,12 +143,12 @@ func getName(playerIndex, playerAddr int32, editor *memory.Editor) string {
 }
 
 type Player struct {
-	EntListIndex    int32
-	BaseAddr        int32
-	Team            int32
-	HP              int32
-	Position        memory.Vector3
-	Name            string
-	BonePositions   map[uintptr]memory.Vector3 //using Hitbox consts to refer to bones
-	IsDormant 		bool
+	EntListIndex  int32
+	BaseAddr      int32
+	Team          int32
+	HP            int32
+	Position      memory.Vector3
+	Name          string
+	BonePositions map[uintptr]memory.Vector3 //using Hitbox consts to refer to bones
+	IsDormant     bool
 }
