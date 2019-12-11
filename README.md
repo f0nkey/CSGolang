@@ -6,7 +6,7 @@
  > todo: add gif here 
 ## Features
 - Configured via GET/POST over a [Svelte UI](https://github.com/sveltejs/svelte)
-- Bunnyhop - Automates technique increasing movement up to 20%.
+- Bunnyhop - Automates a technique increasing movement up to 20%.
 - ESP/X-Ray - View enemies name and skeleton through walls.
   - Colored based on team or a health gradient.
 - Updates offsets/netvars via GET https://github.com/frk1/hazedumper/blob/master/csgo.json
