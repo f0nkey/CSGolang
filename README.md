@@ -5,7 +5,7 @@
 - ESP - View their name and skeleton through walls.
   - Colorcoded based on team or a health gradient.
 - Updates offsets/netvars from https://github.com/frk1/hazedumper/blob/master/csgo.json
-- Configured through a web UI.
+- Configured through a Svelte Web UI.
 
  ## Usage
  1. Download and extract the [latest release](https://github.com/f0nkey/F0nkHack/releases).

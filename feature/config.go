@@ -54,8 +54,15 @@ func defaultConfig() Config {
 	}
 }
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
 func RunConfigEndpoint(masterConfig *Config) {
 	http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
+		enableCors(&rw)
 		if r.Method == "POST" {
 			bodyBytes, _ := ioutil.ReadAll(r.Body)
 			oldConfig := *masterConfig
@@ -73,15 +80,22 @@ func RunConfigEndpoint(masterConfig *Config) {
 			if err != nil {
 				log.Println("RunConfigEndpoint", err)
 			}
-			msg := fmt.Sprintf("Changed %v = %v to %v", from.Field, from.Value, to.Value)
-			rw.Write([]byte(msg))
-		} else {
-			rw.Write([]byte("Use POST with json as a body"))
+			changedMsg := fmt.Sprintf("Changed %v = %v to %v", from.Field, from.Value, to.Value)
+			rw.Write([]byte(changedMsg))
+		} else if r.Method == "GET"{
+			byteConfig,_ := json.Marshal(masterConfig)
+			rw.Write(byteConfig)
 		}
 	})
 	if err := http.ListenAndServe(":9991", nil); err != nil {
 		panic(err)
 	}
+}
+
+func ServeWebGUI() {
+	mux := http.NewServeMux()
+	mux.Handle("/", http.FileServer(http.Dir("ui/public")))
+	http.ListenAndServe(":8085", mux)
 }
 
 func writeConfig(c *Config) error {
