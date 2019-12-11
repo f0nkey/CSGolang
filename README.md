@@ -1,5 +1,7 @@
 # CSGolang
  Allows users to see enemies through walls in the video game Counter-Strike: Global Offense, and adds other advantages.
+ 
+ > todo: add gif here 
 ## Features
 - Configured via GET/POST over a [Svelte UI](https://github.com/sveltejs/svelte)
 - Bunnyhop - Automates technique increasing movement up to 20%.
