@@ -1,9 +1,9 @@
 package feature
 
 import (
-	"F0nkHack/memory"
-	"F0nkHack/render"
-	"F0nkHack/types"
+	"CSGolang/memory"
+	"CSGolang/render"
+	"CSGolang/types"
 	"image/color"
 )
 

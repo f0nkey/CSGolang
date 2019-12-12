@@ -1,8 +1,8 @@
 package feature
 
 import (
-	"F0nkHack/memory"
-	"F0nkHack/render"
+	"CSGolang/memory"
+	"CSGolang/render"
 	"github.com/chewxy/math32"
 	"image/color"
 )

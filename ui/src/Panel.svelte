@@ -2,11 +2,6 @@
     import Switch from './Switch.svelte'
     export let title;
     export let toggler;
-    export let checked;
-
-    console.log("toggler:",toggler);
-    toggler = !toggler;
-    console.log("toggler2:",toggler);
 
 </script>
 
@@ -14,7 +9,7 @@
 <div>
     <h1>{title}</h1>
     <div style="position: relative; width: 0; height: 0;margin:0">
-        <Switch bind:checked={toggler}>Foo</Switch>
+        <Switch bind:checked={toggler}></Switch>
     </div>
 
     <hr>

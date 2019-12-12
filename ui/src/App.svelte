@@ -5,6 +5,7 @@ import Panel from './Panel.svelte';
 import Tab from './Tab.svelte'
 import TabLogo from './TabLogo.svelte'
 import TabsList from './TabsList.svelte'
+import Switch from './Switch.svelte'
 
 
 
@@ -13,6 +14,14 @@ let config;
 getConfig();
 
 $: {config;postConfig()}
+
+setTimeout(function(){
+    console.log("this is skeleton", config.toggles.skeleton);
+    config.toggles.skeleton = false;
+    config.toggles.skeleton = true;
+
+
+},3000);
 
 
 function getConfig(){
@@ -52,7 +61,7 @@ function postConfig(){
     }
 </script>
 
-<!--<div id="loading-text">Waiting for F0nkHack.exe execution ..</div>!-->
+<!--<div id="loading-text">Waiting for CSGolang.exe execution ..</div>!-->
 
 
 <div class="grid" id="app">
@@ -65,9 +74,18 @@ function postConfig(){
     </TabsList>
 
     <div class="config-display">
-        {#if (chosen == "General")}<h1>Yee haw</h1>{/if}
-        {#if (chosen == "ESP")}<h1>Yee haw2</h1>{/if}
-        {#if (chosen == "Misc")}<h1>Yee haw3</h1>{/if}
+        {#if (chosen == "General")}
+            <Switch bind:toggler={config.toggles.skeleton}></Switch> //todo: start aligning this working config toggles
+            <h1>Yee haw</h1>
+        {/if}
+
+        {#if (chosen == "ESP")}
+            <Panel title="Skeleton" bind:toggler={config.toggles.skeleton}> </Panel>
+        {/if}
+
+        {#if (chosen == "Misc")}
+            <h1>Yee haw3</h1>
+        {/if}
 
     </div>
 </div>

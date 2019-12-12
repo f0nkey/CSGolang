@@ -1,10 +1,10 @@
 package feature
 
 import (
-	"F0nkHack/ferror"
-	"F0nkHack/memory"
-	"F0nkHack/offset"
-	"F0nkHack/types"
+	"CSGolang/ferror"
+	"CSGolang/memory"
+	"CSGolang/offset"
+	"CSGolang/types"
 	"golang.org/x/xerrors"
 	"unsafe"
 )

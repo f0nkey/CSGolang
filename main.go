@@ -1,7 +1,7 @@
 package main
 
 import (
-	"F0nkHack/feature"
+	"CSGolang/feature"
 	"time"
 )
 

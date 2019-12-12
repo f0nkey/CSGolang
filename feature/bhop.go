@@ -1,9 +1,9 @@
 package feature
 
 import (
-	"F0nkHack/ferror"
-	"F0nkHack/memory"
-	"F0nkHack/offset"
+	"CSGolang/ferror"
+	"CSGolang/memory"
+	"CSGolang/offset"
 	"github.com/AllenDang/w32"
 	"log"
 	"time"

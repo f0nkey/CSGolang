@@ -1,9 +1,9 @@
 package feature
 
 import (
-	"F0nkHack/ferror"
-	"F0nkHack/memory"
-	"F0nkHack/offset"
+	"CSGolang/ferror"
+	"CSGolang/memory"
+	"CSGolang/offset"
 	"golang.org/x/xerrors"
 	"log"
 	"regexp"

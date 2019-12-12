@@ -1,7 +1,7 @@
 package render
 
 import (
-	"F0nkHack/memory"
+	"CSGolang/memory"
 	"fmt"
 	"github.com/AllenDang/w32"
 	"github.com/faiface/pixel"
