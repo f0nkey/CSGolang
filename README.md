@@ -1,4 +1,4 @@
-![alt text](https://i.imgur.com/LNNcd3u.png "Logo Title Text 1")
+![CSGolang](https://i.imgur.com/LNNcd3u.png "Logo CSGolang")
 
 # CSGolang
  Allows users to see enemies through walls in the video game Counter-Strike: Global Offense (CSGO), and adds other advantages.
