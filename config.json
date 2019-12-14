@@ -5,11 +5,11 @@
 		"skeleton": true
 	},
 	"colorModes": {
-		"name": 1,
+		"name": 0,
 		"skeleton": 1
 	},
 	"seeTeammates": {
 		"name": true,
-		"skeleton": false
+		"skeleton": true
 	}
 }

@@ -47,19 +47,13 @@ function postConfig(){
         console.log('POST failure: ', error);
     });
 }
-
     let chosen = "General";
-
     function setSelectedTab(event){
         chosen = event.detail;
     }
 </script>
 
-<!--<div id="loading-text">Waiting for CSGolang.exe execution ..</div>!-->
-
-
 <div class="grid" id="app">
-
     <TabsList>
         <TabLogo></TabLogo>
         <Tab on:selection={setSelectedTab} chosen={chosen} title="General"></Tab>
@@ -69,19 +63,25 @@ function postConfig(){
 
     <div class="config-display">
         {#if (chosen == "General")}
-            <Switch bind:toggler={config.toggles.skeleton}></Switch> //todo: start aligning this working config toggles
             <h1>Yee haw</h1>
         {/if}
 
         {#if (chosen == "ESP")}
             <Panel title="Skeleton" bind:toggler={config.toggles.skeleton}>
-                 <h1>See Teammates</h1> <Switch bind:checked={config.seeTeammates.skeleton}></Switch>
-                 <h1>Color Mode</h1> <Select bind:selected={config.colorModes.skeleton}></Select>
+                 <h1>See Teammates:</h1> <Switch bind:checked={config.seeTeammates.skeleton}></Switch>
+                 <h1>Color Mode:</h1> <Select bind:selected={config.colorModes.skeleton}></Select>
+            </Panel>
+
+            <Panel title="Name" bind:toggler={config.toggles.name}>
+                 <h1>See Teammates:</h1> <Switch bind:checked={config.seeTeammates.name}></Switch>
+                 <h1>Color Mode:</h1> <Select bind:selected={config.colorModes.name}></Select>
             </Panel>
         {/if}
 
         {#if (chosen == "Misc")}
-            <h1>Yee haw3</h1>
+            <Panel title="Bhop" bind:toggler={config.toggles.bhop}>
+                 <h1>Toggle:</h1> <Switch bind:checked={config.toggles.bhop}></Switch>
+            </Panel>
         {/if}
 
     </div>
@@ -103,8 +103,6 @@ function postConfig(){
         font-size: 16px;
         display:inline-block;
 	}
-
-
     .config-display {
         color:white;
         display:grid;
@@ -123,7 +121,6 @@ function postConfig(){
         height: 100%;
         width: 21px;
     }
-
     #loading-text {
         display:flex;
         justify-content:center;

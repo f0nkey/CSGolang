@@ -5,20 +5,20 @@
 </script>
 
 
-<div>
-    <div class="panel">
+<div class="panel">
+    <div class="inner">
         <Switch bind:checked={toggler}></Switch>
     </div>
     <h1>{title}</h1>
 
-
     <hr>
-    <slot></slot>
+    <div class="slot-area"><slot></slot></div>
+
 
 </div>
 
 <style>
-    div {
+    .panel {
         margin: 20px;
         color:black;
         background-color:white;
@@ -26,8 +26,13 @@
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
         z-index: 2000;
     }
-    .panel {
+    .slot-area {
+        display:grid;
+        grid-template-columns: 50% 50%;
+    }
+    .inner {
         position: relative; width: 0; height: 0;margin:0; margin-left: calc(100% - 70px); top: 4px;
+
     }
     h1 {
         padding-left: 10px;
