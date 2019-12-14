@@ -22,4 +22,5 @@
  
 ## GIFs
 
-![CSGolang](https://i.imgur.com/F1ypEnr.gif "Logo CSGolang")
+![CSGolang](https://i.imgur.com/F1ypEnr.gif "CS UI Preview")
+![CSGolang](https://thumbs.gfycat.com/NeighboringEasygoingAfricanbushviper-small.gif "CS Wall Preview")
