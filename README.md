@@ -20,3 +20,6 @@
  3. Run CSGOlang.exe.
  4. Navigate to http://localhost:8085 in your web browser (or Steam browser) to change configuration.
  
+## GIFs
+
+![CSGolang](https://i.imgur.com/F1ypEnr.gif "Logo CSGolang")
