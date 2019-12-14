@@ -6,6 +6,7 @@ import Tab from './Tab.svelte'
 import TabLogo from './TabLogo.svelte'
 import TabsList from './TabsList.svelte'
 import Switch from './Switch.svelte'
+import Select from './Select.svelte'
 
 
 
@@ -14,15 +15,6 @@ let config;
 getConfig();
 
 $: {config;postConfig()}
-
-setTimeout(function(){
-    console.log("this is skeleton", config.toggles.skeleton);
-    config.toggles.skeleton = false;
-    config.toggles.skeleton = true;
-
-
-},3000);
-
 
 function getConfig(){
 
@@ -41,6 +33,8 @@ function getConfig(){
 
 function postConfig(){
     console.log("posting ..");
+    config.colorModes.skeleton = parseInt(config.colorModes.skeleton);
+    config.colorModes.name = parseInt(config.colorModes.name);
     fetch("http://localhost:9991", {
          method: 'POST',
          headers: {},
@@ -80,7 +74,10 @@ function postConfig(){
         {/if}
 
         {#if (chosen == "ESP")}
-            <Panel title="Skeleton" bind:toggler={config.toggles.skeleton}> </Panel>
+            <Panel title="Skeleton" bind:toggler={config.toggles.skeleton}>
+                 <h1>See Teammates</h1> <Switch bind:checked={config.seeTeammates.skeleton}></Switch>
+                 <h1>Color Mode</h1> <Select bind:selected={config.colorModes.skeleton}></Select>
+            </Panel>
         {/if}
 
         {#if (chosen == "Misc")}
@@ -100,6 +97,11 @@ function postConfig(){
 	    display:grid;
         grid-template-columns: 25% 75%;
         grid-template-rows: auto;
+	}
+	h1 {
+	    padding-left: 10px;
+        font-size: 16px;
+        display:inline-block;
 	}
 
 

@@ -6,10 +6,10 @@
 	},
 	"colorModes": {
 		"name": 1,
-		"skeleton": 0
+		"skeleton": 1
 	},
 	"seeTeammates": {
 		"name": true,
-		"skeleton": true
+		"skeleton": false
 	}
 }

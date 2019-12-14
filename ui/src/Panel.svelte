@@ -2,19 +2,17 @@
     import Switch from './Switch.svelte'
     export let title;
     export let toggler;
-
 </script>
 
 
 <div>
-    <div style="position: relative; width: 0; height: 0;margin:0; margin-left: calc(100% - 70px); top: 4px;">
+    <div class="panel">
         <Switch bind:checked={toggler}></Switch>
     </div>
     <h1>{title}</h1>
 
 
     <hr>
-    <h1>what</h1>
     <slot></slot>
 
 </div>
@@ -26,15 +24,15 @@
         background-color:white;
         border-radius: 25px;
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        z-index: 2000;
+    }
+    .panel {
+        position: relative; width: 0; height: 0;margin:0; margin-left: calc(100% - 70px); top: 4px;
     }
     h1 {
         padding-left: 10px;
         font-size: 16px;
     }
-    hr {
-        width:100%;
-    }
-
     input[type=checkbox]{
     	height: 0;
     	width: 0;
