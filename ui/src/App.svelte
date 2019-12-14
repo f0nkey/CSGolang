@@ -61,9 +61,12 @@ function postConfig(){
         <Tab on:selection={setSelectedTab} chosen={chosen} title="Misc"></Tab>
     </TabsList>
 
-    <div class="config-display">
+    <div class="config-display" style = { chosen === "General" ? "grid-template-columns: 100%;" : "" }>
         {#if (chosen == "General")}
-            <h1>Yee haw</h1>
+            <div style="display:flex;justify-content:center;align-items:center;">
+                <img src="https://i.imgur.com/rgCb2z9.png" alt="" style="width:200px">
+                <h1 style="font-size: 5rem">CSGolang</h1>
+            </div>
         {/if}
 
         {#if (chosen == "ESP")}
@@ -96,6 +99,7 @@ function postConfig(){
 	    height:100%;
 	    display:grid;
         grid-template-columns: 25% 75%;
+
         grid-template-rows: auto;
 	}
 	h1 {

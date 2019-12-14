@@ -9,8 +9,8 @@
 </script>
 
 <select id="input" class="select" bind:value={selected} bind:this={exportElement}>
-		<option value=0>Healthy</option>
-		<option value=1>Sick</option>
+		<option value=0>Health</option>
+		<option value=1>Team</option>
 </select>
 
 <style>
