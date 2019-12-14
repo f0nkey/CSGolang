@@ -1,7 +1,7 @@
 ![CSGolang](https://i.imgur.com/LNNcd3u.png "Logo CSGolang")
 
 # CSGolang
- Allows users to see enemies through walls in the video game Counter-Strike: Global Offense (CSGO), and adds other advantages.
+ Allows users to see enemies through walls in the video game Counter-Strike: Global Offense (CS:GO), and adds other advantages.
  
  Reads and writes to the memory of CS:GO via [WinAPI](https://en.wikipedia.org/wiki/Windows_API), and draws an overlay using https://github.com/faiface/pixel
  
