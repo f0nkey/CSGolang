@@ -13,14 +13,14 @@
   - Colored based on team or a health gradient.
 - Updates offsets/netvars via GET https://github.com/frk1/hazedumper/blob/master/csgo.json
 
-
  ## Usage
  1. Download and extract the [latest release](https://github.com/f0nkey/F0nkHack/releases).
- 2. Open CS:GO in **fullscreen windowed** mode at 1920x1080.
- 3. Run CSGOlang.exe.
- 4. Navigate to http://localhost:8085 in your web browser (or Steam browser) to change configuration.
+ 2. Set -insecure flag on CS:GO (or risk suspension from game)
+ 3. Open CS:GO, set **fullscreen windowed** mode at 1920x1080.
+ 4. Run CSGOlang.exe.
+ 5. Navigate to http://localhost:8085 in your web browser (or Steam browser) to change configuration.
  
-## GIFs
+## Previews
 
 ![CSGolang](https://i.imgur.com/F1ypEnr.gif "CS UI Preview")
 ![CSGolang](https://thumbs.gfycat.com/NeighboringEasygoingAfricanbushviper-small.gif "CS Wall Preview")
