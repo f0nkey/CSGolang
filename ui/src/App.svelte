@@ -112,6 +112,15 @@ function postConfig(){
         height:100%;
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     }
+    .config-display:before {
+        background-color: red;
+        color: red;
+        content: "5";
+        display: block;
+        position: absolute;
+        height: 100%;
+        width: 21px;
+    }
 
     #loading-text {
         display:flex;

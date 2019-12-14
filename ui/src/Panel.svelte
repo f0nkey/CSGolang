@@ -7,10 +7,11 @@
 
 
 <div>
-    <h1>{title}</h1>
-    <div style="position: relative; width: 0; height: 0;margin:0">
+    <div style="position: relative; width: 0; height: 0;margin:0; margin-left: calc(100% - 70px); top: 4px;">
         <Switch bind:checked={toggler}></Switch>
     </div>
+    <h1>{title}</h1>
+
 
     <hr>
     <h1>what</h1>
