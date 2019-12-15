@@ -10,7 +10,7 @@
  
  Reads and writes to the memory of CS:GO via [WinAPI](https://en.wikipedia.org/wiki/Windows_API), and draws an overlay using https://github.com/faiface/pixel
  
- This is a rewrite of a previous version, with many features left out so far.
+ This is a rewrite of a previous private version, with many features not yet added.
  
 ## Features
 - Configured via GET/POST over a [Svelte UI](https://github.com/sveltejs/svelte)
