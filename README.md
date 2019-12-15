@@ -1,5 +1,10 @@
 ![CSGolang](https://i.imgur.com/LNNcd3u.png "Logo CSGolang")
 
+<p align="center">
+  <a href="https://forthebadge.com"><img src="https://forthebadge.com/images/badges/does-not-contain-msg.svg"></a>
+  <a href="https://forthebadge.com"><img src="https://forthebadge.com/images/badges/made-with-go.svg"></a>
+</p>
+
 # CSGolang
  Allows users to see enemies through walls in the video game Counter-Strike: Global Offense (CS:GO), and adds other advantages.
  
@@ -25,3 +30,4 @@
 
 ![CSGolang](https://i.imgur.com/F1ypEnr.gif "CS UI Preview")
 ![CSGolang](https://thumbs.gfycat.com/NeighboringEasygoingAfricanbushviper-small.gif "CS Wall Preview")
+![CSGolang](https://thumbs.gfycat.com/ComplicatedPaltryGrizzlybear-size_restricted.gif "CS Wall Preview 2")
