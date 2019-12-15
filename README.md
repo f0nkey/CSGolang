@@ -5,7 +5,7 @@
  
  Reads and writes to the memory of CS:GO via [WinAPI](https://en.wikipedia.org/wiki/Windows_API), and draws an overlay using https://github.com/faiface/pixel
  
- This is a rewrite of a previous version.
+ This is a rewrite of a previous version, with many features left out so far.
  
 ## Features
 - Configured via GET/POST over a [Svelte UI](https://github.com/sveltejs/svelte)
@@ -15,7 +15,7 @@
 - Updates offsets/netvars via GET https://github.com/frk1/hazedumper/blob/master/csgo.json
 
  ## Usage
- 1. Download and extract the [latest release](https://github.com/f0nkey/F0nkHack/releases).
+ 1. Download and extract the [latest release](https://github.com/f0nkey/CSGolang/releases).
  2. Set -insecure flag on CS:GO (or [risk suspension](https://support.steampowered.com/kb/7849-RADZ-6869/) from game)
  3. Open CS:GO, set **fullscreen windowed** mode at 1920x1080.
  4. Run CSGOlang.exe.
