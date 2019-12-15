@@ -5,6 +5,8 @@
  
  Reads and writes to the memory of CS:GO via [WinAPI](https://en.wikipedia.org/wiki/Windows_API), and draws an overlay using https://github.com/faiface/pixel
  
+ This is a rewrite of a previous version.
+ 
 ## Features
 - Configured via GET/POST over a [Svelte UI](https://github.com/sveltejs/svelte)
 - Bunnyhop - Automates a technique increasing movement up to 20%.
@@ -14,7 +16,7 @@
 
  ## Usage
  1. Download and extract the [latest release](https://github.com/f0nkey/F0nkHack/releases).
- 2. Set -insecure flag on CS:GO (or risk suspension from game)
+ 2. Set -insecure flag on CS:GO (or [risk suspension](https://support.steampowered.com/kb/7849-RADZ-6869/) from game)
  3. Open CS:GO, set **fullscreen windowed** mode at 1920x1080.
  4. Run CSGOlang.exe.
  5. Navigate to http://localhost:8085 in your web browser (or Steam browser) to change configuration.
