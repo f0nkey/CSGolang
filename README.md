@@ -5,7 +5,6 @@
  
  Reads and writes to the memory of CS:GO via [WinAPI](https://en.wikipedia.org/wiki/Windows_API), and draws an overlay using https://github.com/faiface/pixel
  
- > todo: add gif here 
 ## Features
 - Configured via GET/POST over a [Svelte UI](https://github.com/sveltejs/svelte)
 - Bunnyhop - Automates a technique increasing movement up to 20%.
