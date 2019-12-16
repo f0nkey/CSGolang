@@ -10,7 +10,7 @@
  
  Reads and writes to the memory of CS:GO via [WinAPI](https://en.wikipedia.org/wiki/Windows_API), and draws an overlay using https://github.com/faiface/pixel
  
- This is a rewrite of a previous private version, with many features not yet added.
+ This has already been emailed to CS:GO's creators (vacreview@valvesoftware.com) to prevent malicious use. 
  
 ## Features
 - Configured via GET/POST over a [Svelte UI](https://github.com/sveltejs/svelte)
@@ -31,6 +31,3 @@
 ![CSGolang](https://i.imgur.com/F1ypEnr.gif "CS UI Preview")
 ![CSGolang](https://thumbs.gfycat.com/NeighboringEasygoingAfricanbushviper-small.gif "CS Wall Preview")
 ![CSGolang](https://thumbs.gfycat.com/ComplicatedPaltryGrizzlybear-size_restricted.gif "CS Wall Preview 2")
-
-## Note
-This has already been emailed to CS:GO's creators (vacreview@valvesoftware.com) to prevent malicious use. 
