@@ -31,3 +31,6 @@
 ![CSGolang](https://i.imgur.com/F1ypEnr.gif "CS UI Preview")
 ![CSGolang](https://thumbs.gfycat.com/NeighboringEasygoingAfricanbushviper-small.gif "CS Wall Preview")
 ![CSGolang](https://thumbs.gfycat.com/ComplicatedPaltryGrizzlybear-size_restricted.gif "CS Wall Preview 2")
+
+## Note
+This has already been emailed to CS:GO's creators (vacreview@valvesoftware.com) to prevent malicious use. 
