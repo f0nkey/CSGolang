@@ -1,6 +1,6 @@
 {
 	"toggles": {
-		"bhop": false,
+		"bhop": true,
 		"name": true,
 		"skeleton": true
 	},
