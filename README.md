@@ -10,7 +10,9 @@
  
  Reads and writes to the memory of CS:GO via [WinAPI](https://en.wikipedia.org/wiki/Windows_API), and draws an overlay using https://github.com/faiface/pixel. Configured over HTTP with the [Svelte Framework](https://github.com/sveltejs/svelte). 
  
- This has already been emailed to CS:GO's creators (vacreview@valvesoftware.com) to prevent malicious use. 
+This has already been emailed to CS:GO's creators (vacreview@valvesoftware.com) to prevent malicious use.
+
+It is a rewrite from a more feature-complete version. I may never update this again.
  
 ## Features
 - Configured via GET/POST over a [Svelte UI](https://github.com/sveltejs/svelte)
