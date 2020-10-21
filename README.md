@@ -12,7 +12,7 @@
  
 This has already been emailed to CS:GO's creators (vacreview@valvesoftware.com) to prevent malicious use.
 
-It is a rewrite from a more feature-complete version. I may never update this again.
+It is a rewrite from a more spaghetti, feature-complete version. I may never update this again.
  
 ## Features
 - Configured via GET/POST over a [Svelte UI](https://github.com/sveltejs/svelte)
